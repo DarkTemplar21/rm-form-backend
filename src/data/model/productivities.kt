@@ -8,9 +8,18 @@ import java.util.*
 
 
 object Productivities: Table() {
-    val id: Column<Int> = integer("id").autoIncrement().primaryKey()
-    val key: Column<Int> = integer("key")
-    val boxCant: Column<Int> = integer("box_cant")
+    val id: Column<UUID> = uuid("id").autoIncrement().primaryKey()
+    val turnNumber: Column<Int> = integer("turn_number")
+    val startDate: Column<String> = text("start_date")
+    val date: Column<String> = text("date")
+    val M1X400: Column<Int> = integer("m1x400")
+    val M1X800: Column<Int> = integer("m1x800")
+    val M01: Column<Int> = integer("m01")
+    val M02: Column<Int> = integer("m02")
+    val M03: Column<Int> = integer("m03")
+    val M04: Column<Int> = integer("m04")
+    val M05: Column<Int> = integer("m05")
+    val MCEDA: Column<Int> = integer("mceda")
 
 
 }
