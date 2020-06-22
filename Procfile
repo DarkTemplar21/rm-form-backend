@@ -1,1 +1,1 @@
-web: java -jar target/richmeat-0.0.1.jar
+web: build/install/richmeat/bin/richmeat
