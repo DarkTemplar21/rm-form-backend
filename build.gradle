@@ -38,13 +38,13 @@ sourceSets {
     test.resources.srcDirs = ['testresources']
 }
 mainClassName = 'com.richmeat.Application.kt'
-//shadowJar {
-//    project.configurations.implementation.canBeResolved = true
-//    configurations = [project.configurations.implementation]
-//    manifest {
-//        attributes 'Main-Class': mainClassName
-//    }
-//}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
 task stage {
     dependsOn installDist
 }
@@ -84,3 +84,4 @@ dependencies {
 
 
 }
+
