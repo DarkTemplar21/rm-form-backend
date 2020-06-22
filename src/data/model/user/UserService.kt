@@ -67,15 +67,15 @@ class UserService {
     fun insertUsers(users: List<UserDTO>) {
         transaction {
             for (user in users) {
-                if (thisDniExists(user.dni)){
-                    Users.update ({dni eq user.dni}){
+                if (thisDniExists(user.dni)) {
+                    Users.update({ dni eq user.dni }) {
                         it[id] = UUID.randomUUID()
                         it[firstName] = user.firstName
                         it[lastName] = user.lastName
                         it[dni] = user.dni
                         it[exitsCount] = "user.exitsCount + 1"
                     }
-                }else{
+                } else {
                     Users.insert {
                         it[id] = UUID.randomUUID()
                         it[firstName] = user.firstName
@@ -110,6 +110,7 @@ class UserService {
         fun init() {
             Database.connect(hikari())
         }
+
         private fun hikari(): HikariDataSource {
             val config = HikariConfig()
             config.driverClassName = "org.postgresql.Driver"
@@ -120,6 +121,8 @@ class UserService {
             config.isAutoCommit = false
             config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
             config.validate()
+            return HikariDataSource(config)
+
 //            return HikariDataSource(config)  val config = HikariConfig()
 //            config.driverClassName = "org.postgresql.Driver"
 //            config.jdbcUrl = "jdbc:postgresql://127.0.0.1:5432/postgres"
@@ -131,6 +134,7 @@ class UserService {
 //            config.validate()
 //            return HikariDataSource(config)
         }
+
 
     }
 }
