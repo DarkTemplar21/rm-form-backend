@@ -8,16 +8,16 @@ data class Productivity(
 
 
     val startDate: String?,
-    val date : String,
+    val date : DateTime,
     val turnNumber : Int,
-    val M1X400 : Int,
-    val M1X800 : Int,
-    val M01 : Int,
-    val M02 : Int,
-    val M03 : Int,
-    val M04 : Int,
-    val M05 : Int,
-    val MCEDA : Int
+    var M1X400 : Int,
+    var M1X800 : Int,
+    var M01 : Int,
+    var M02 : Int,
+    var M03 : Int,
+    var M04 : Int,
+    var M05 : Int,
+    var MCEDA : Int
 
 
 

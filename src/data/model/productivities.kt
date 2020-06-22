@@ -11,7 +11,7 @@ object Productivities: Table() {
     val id: Column<UUID> = uuid("id").autoIncrement().primaryKey()
     val turnNumber: Column<Int> = integer("turn_number")
     val startDate: Column<String> = text("start_date")
-    val date: Column<String> = text("date")
+    val date: Column<DateTime> = datetime("date")
     val M1X400: Column<Int> = integer("m1x400")
     val M1X800: Column<Int> = integer("m1x800")
     val M01: Column<Int> = integer("m01")
@@ -23,6 +23,8 @@ object Productivities: Table() {
 
 
 }
+
+
 
 
 
