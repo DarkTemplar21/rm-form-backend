@@ -1,1 +1,1 @@
-web: build/install/kotlinserver/bin/richmeat
+web: java -jar target/richmeat.jar
