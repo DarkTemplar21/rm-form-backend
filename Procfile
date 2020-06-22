@@ -1,1 +1,1 @@
-web: build/install/kotlinserver/bin/richmeat
+web: gradlew run
