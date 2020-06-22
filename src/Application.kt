@@ -11,11 +11,13 @@ import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CORS
+import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.document
 import io.ktor.request.receive
 import io.ktor.response.respond
+import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
@@ -50,7 +52,11 @@ fun main(args: Array<String>) {
 
 
             get("/richmeat/productivity/date/*") {
+
                 getProductivitiesByDateResponse(productivityService, gson)
+            }
+            get("/hi") {
+                call.respondText("Hello World!", ContentType.Text.Plain)
             }
             get("/richmeat/productivity/accumulated/*") {
                 getAccumulatedProductivityREsponse(productivityService, gson)
