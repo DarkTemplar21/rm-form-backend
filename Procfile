@@ -1,1 +1,1 @@
-web:    java -jar target/Application.jar
+web: build/install/kotlinserver/bin/kotlinserver
