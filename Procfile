@@ -1,1 +1,1 @@
-web:    java -jar target/richmeat.jar
+web:    java -jar target/Application.jar
