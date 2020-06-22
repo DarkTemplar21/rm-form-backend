@@ -27,7 +27,7 @@ import org.joda.time.format.DateTimeFormat
 
 fun main(args: Array<String>) {
 
-    UserService.DatabaseFactory.init()
+//    UserService.DatabaseFactory.init()
     val userService = UserService()
     val productivityService = ProductivityService()
     val gson = Gson()
