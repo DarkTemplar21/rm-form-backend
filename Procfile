@@ -1,1 +1,1 @@
-web: build/install/kotlinserver/bin/Richmeat
+web:    java -jar target/helloworld.jar
