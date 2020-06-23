@@ -40,8 +40,12 @@ sourceSets {
 mainClassName='Application.kt'
 
 jar {
-    baseName = 'ktor-heroku-getting-started'
-    version = '1.0'
+    version = '0.0.1'
+    manifest {
+        attributes(
+                'Main-Class': 'com.richmeat.Application.kt'
+        )
+    }
 }
 
 task stage(dependsOn: ['installDist'])
