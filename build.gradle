@@ -82,6 +82,7 @@ dependencies {
     implementation 'org.jetbrains.exposed:exposed:0.17.6'
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.2.4.jre7'
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0-RC1'
 
 
 }
