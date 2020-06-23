@@ -65,9 +65,7 @@ fun main(args: Array<String>) {
 
 
             post("richmeat/modules") {
-                val callString = call.receive<String>()
-                println("esto es modulos--"+callString)
-                val productivity = Gson().fromJson(callString, Array<Module>::class.java)
+                val productivity = Gson().fromJson( call.receive<String>(), Array<Module>::class.java)
                 productivityService.insertProductivity(productivity.toList())
                 call.respond(HttpStatusCode.Created)
 
