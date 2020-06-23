@@ -28,7 +28,6 @@ compileTestKotlin {
 
 //mainClassName = 'io.ktor.server.netty.EngineMain' // Starting with 1.0.0-beta-3
 
-group 'com.richmeat'
 version '0.0.1'
 
 sourceSets {
@@ -38,15 +37,14 @@ sourceSets {
     test.resources.srcDirs = ['testresources']
 }
 
-mainClassName = "com.richmeat.Application.kt"
-task stage {
-    dependsOn installDist
+mainClassName='Application.kt'
+
+jar {
+    baseName = 'ktor-heroku-getting-started'
+    version = '1.0'
 }
-//jar {
-//    manifest {
-//        attributes 'Main-Class': mainClassName
-//    }
-//}
+
+task stage(dependsOn: ['installDist'])
 
 repositories {
     mavenLocal()
