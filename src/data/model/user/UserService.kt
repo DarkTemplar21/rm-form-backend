@@ -112,6 +112,7 @@ class UserService {
         }
 
         private fun hikari(): HikariDataSource {
+            //ok for heroku
             val config = HikariConfig()
             config.driverClassName = "org.postgresql.Driver"
             config.jdbcUrl = "jdbc:postgresql://ec2-52-44-55-63.compute-1.amazonaws.com:5432/da2bvcvg2pb9gl"
