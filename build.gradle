@@ -42,12 +42,12 @@ mainClassName='Application.kt'
 jar {
     manifest {
         attributes(
-                'Main-Class': 'com.richmeat.Application.kt'
+                'Main-Class': 'Application.kt'
         )
     }
 }
-
-task stage(dependsOn: ['installDist'])
+task stage(dependsOn: ['installDist']
+)
 
 repositories {
     mavenLocal()
