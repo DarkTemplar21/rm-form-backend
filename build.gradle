@@ -39,14 +39,15 @@ sourceSets {
 }
 
 mainClassName = 'com.richmeat.Application'
-jar {
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
-}
 task stage {
     dependsOn installDist
 }
+//jar {
+//    manifest {
+//        attributes 'Main-Class': mainClassName
+//    }
+//}
+
 repositories {
     mavenLocal()
     jcenter()
