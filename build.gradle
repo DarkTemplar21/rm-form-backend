@@ -8,7 +8,7 @@ buildscript {
     
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.jengelman.gradle.plugins:shadow:6.0.0'
+//        classpath 'com.github.jengelman.gradle.plugins:shadow:6.0.0'
 
     }
 }
@@ -38,7 +38,7 @@ sourceSets {
     test.resources.srcDirs = ['testresources']
 }
 
-mainClassName = 'com.richmeat.Application'
+mainClassName = "com.richmeat.Application.kt"
 task stage {
     dependsOn installDist
 }
