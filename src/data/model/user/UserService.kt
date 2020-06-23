@@ -114,7 +114,7 @@ class UserService {
         private fun hikari(): HikariDataSource {
             val config = HikariConfig()
             config.driverClassName = "org.postgresql.Driver"
-            config.jdbcUrl = "jdbc:postgresql://127.0.0.1:5432/da2bvcvg2pb9gl"
+            config.jdbcUrl = "jdbc:postgresql://ec2-52-44-55-63.compute-1.amazonaws.com:5432/da2bvcvg2pb9gl"
             config.username = "xoxokpbwxaqxew"
             config.password = "2c4d354439dd68be1c252495556e94a967cd07e0ce625a854a6b9bf60ce46610"
             config.maximumPoolSize = 3
