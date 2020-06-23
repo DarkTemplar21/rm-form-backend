@@ -46,7 +46,7 @@ mainClassName='com.richmeat.ApplicationKt'
 //        )
 //    }
 //}
-task stage(dependsOn: ['installDist','fatJar']
+task stage(dependsOn: ['fatJar']
 )
 //jar {
 //    manifest {
