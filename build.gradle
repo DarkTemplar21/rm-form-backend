@@ -46,7 +46,7 @@ mainClassName='com.richmeat.ApplicationKt'
 //        )
 //    }
 //}
-task stage(dependsOn: ['installDist']
+task stage(dependsOn: ['installDist','fatJar']
 )
 //jar {
 //    manifest {
@@ -73,17 +73,7 @@ repositories {
     maven { url 'https://kotlin.bintray.com/ktor' }
     maven { url 'https://kotlin.bintray.com/kotlin-js-wrappers' }
 }
-//task fatJar(type: Jar) {
-//    manifest {
-//        attributes 'Implementation-Title': project.name,
-//                'Implementation-Version': version,
-//                'Main-Class': 'class.path.to.MainKt'
-//    }
-//    baseName = project.name
-//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-//    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-//    with jar
-//}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "io.ktor:ktor-server-netty:$ktor_version"
