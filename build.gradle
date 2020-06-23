@@ -39,15 +39,33 @@ sourceSets {
 
 mainClassName='com.richmeat.ApplicationKt'
 
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'com.richmeat.ApplicationKt'
-        )
-    }
-}
+//jar {
+//    manifest {
+//        attributes(
+//                'Main-Class': 'com.richmeat.ApplicationKt'
+//        )
+//    }
+//}
 task stage(dependsOn: ['installDist']
 )
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.richmeat.ApplicationKt'
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.richmeat.ApplicationKt'
+    }
+    baseName = project.name
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
 
 repositories {
     mavenLocal()
@@ -83,7 +101,6 @@ dependencies {
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.2.4.jre7'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0-RC1'
-
 
 }
 
