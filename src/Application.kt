@@ -65,9 +65,16 @@ fun main(args: Array<String>) {
 
 
             post("richmeat/modules") {
-                val productivity = Gson().fromJson( call.receive<String>(), Array<Module>::class.java)
-                productivityService.insertProductivity(productivity.toList())
-                call.respond(HttpStatusCode.Created)
+                try {
+                    val productivity = Gson().fromJson( call.receive<String>(), Array<Module>::class.java)
+                    productivityService.insertProductivity(productivity.toList())
+                    call.respond(HttpStatusCode.Created)
+
+                }catch (e: Exception){
+                    call.respond(e.printStackTrace())
+                }
+
+
 
             }
 
