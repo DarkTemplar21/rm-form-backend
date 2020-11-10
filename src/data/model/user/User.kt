@@ -1,22 +1,19 @@
 package com.richmeat.data.model.user
 
 import org.jetbrains.exposed.sql.Column
+import java.net.PasswordAuthentication
 import java.util.*
 
 data class User(
-    val id: UUID = UUID.randomUUID(),
-    val firstName: String,
-    val lastName: String,
-    val dni: Long,
-    val exitsCount: String
-
-
+    val name: String,
+    val email: String,
+    val password:  String
 )
 // request object
 data class UserDTO(
-    val firstName: String,
-    val lastName: String,
-    val dni: Long,
-    val exitsCount: String
+    val name: String,
+    val email: String,
+    val password: String
+
 
 )

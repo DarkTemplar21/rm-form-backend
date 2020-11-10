@@ -9,13 +9,9 @@ import java.util.*
 
 
 object Users: Table() {
-    val id: Column<UUID> = uuid("id").autoIncrement().primaryKey()
-    val firstName: Column<String> = text("first_name")
-    val lastName: Column<String> = text("last_name")
-    val dni: Column<Long> = long("dni")
-    val exitsCount: Column<String> = text("exits_count")
-
-
+    val name: Column<String> = text("name")
+    val email: Column<String> = text("email")
+    val password: Column<String> = text("password")
 }
 
 

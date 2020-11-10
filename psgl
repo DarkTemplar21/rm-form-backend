@@ -1,0 +1,14 @@
+=== DATABASE_URL
+Plan:                  Hobby-dev
+Status:                Available
+Connections:           3/20
+PG Version:            12.3
+Created:               2020-06-12 16:40 UTC
+Data Size:             8.1 MB
+Tables:                1
+Rows:                  24/10000 (In compliance)
+Fork/Follow:           Unsupported
+Rollback:              Unsupported
+Continuous Protection: Off
+Add-on:                postgresql-horizontal-07412
+

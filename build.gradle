@@ -16,6 +16,7 @@ apply plugin: 'kotlin'
 //apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'application'
+mainClassName='com.richmeat.ApplicationKt'
 
 //apply plugin: 'com.github.johnrengelman.shadow'
 sourceCompatibility = 1.8
@@ -37,15 +38,15 @@ sourceSets {
     test.resources.srcDirs = ['testresources']
 }
 
-mainClassName='com.richmeat.ApplicationKt'
 
-//jar {
-//    manifest {
-//        attributes(
-//                'Main-Class': 'com.richmeat.ApplicationKt'
-//        )
-//    }
-//}
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.richmeat.ApplicationKt'
+        )
+    }
+}
+//generate .jar for deploy workinggg
 task stage(dependsOn: ['fatJar']
 )
 //jar {
