@@ -21,12 +21,12 @@ import io.ktor.server.netty.Netty
 
 fun main(args: Array<String>) {
 
-   UserService.DatabaseFactory.init()
-    val userService = UserService()
-    val dataBaseService = DataBaseService()
+//   UserService.DatabaseFactory.init()
+//    val userService = UserService()
+//    val dataBaseService = DataBaseService()
     val gson = Gson()
 
-    val port = System.getenv("PORT")?.toInt() ?: 5678
+    val port = System.getenv("PORT")?.toInt() ?: 8080
     val server = embeddedServer(Netty, port = port) {
 
         install(CORS) {
