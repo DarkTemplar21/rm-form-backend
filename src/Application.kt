@@ -63,17 +63,17 @@ fun main(args: Array<String>) {
 
             //not Used endpoints
 
-            get("/richmeat/users") {
-                call.respond(gson.toJson(userService.getAllUsers()))
-            }
+//            get("/richmeat/users") {
+//                call.respond(gson.toJson(userService.getAllUsers()))
+//            }
             get("/richmeat/productivity") {
             }
 
-            post("richmeat/login") {
-                val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
-                dataBaseService.loginRquest(userLogin)
-                call.respond(HttpStatusCode.Created)
-            }
+//            post("richmeat/login") {
+//                val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
+//                dataBaseService.loginRquest(userLogin)
+//                call.respond(HttpStatusCode.Created)
+//            }
 
         }
 
