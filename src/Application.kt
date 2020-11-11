@@ -21,7 +21,7 @@ import io.ktor.server.netty.Netty
 
 fun main(args: Array<String>) {
 
-    UserService.DatabaseFactory.init()
+  //  UserService.DatabaseFactory.init()
     val userService = UserService()
     val dataBaseService = DataBaseService()
     val gson = Gson()
