@@ -21,9 +21,9 @@ import io.ktor.server.netty.Netty
 
 fun main(args: Array<String>) {
 
-//   UserService.DatabaseFactory.init()
-//    val userService = UserService()
-//    val dataBaseService = DataBaseService()
+   UserService.DatabaseFactory.init()
+    val userService = UserService()
+    val dataBaseService = DataBaseService()
     val gson = Gson()
 
     val port = System.getenv("PORT")?.toInt() ?: 8080
@@ -44,7 +44,7 @@ fun main(args: Array<String>) {
 
 
             get("/hi") {
-                call.respondText("Hello World all ok!", ContentType.Text.Plain)
+                call.respondText("Hello World all ok 1!", ContentType.Text.Plain)
             }
 
 
@@ -61,11 +61,10 @@ fun main(args: Array<String>) {
             }
 
 
-            //not Used endpoints
 
-//            get("/richmeat/users") {
-//                call.respond(gson.toJson(userService.getAllUsers()))
-//            }
+            get("/richmeat/users") {
+                call.respond(gson.toJson(userService.getAllUsers()))
+            }
             get("/richmeat/productivity") {
             }
 
