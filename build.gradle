@@ -49,11 +49,11 @@ jar {
 //generate .jar for deploy workinggg
 task stage(dependsOn: ['fatJar']
 )
-jar {
-    manifest {
-        attributes 'Main-Class': 'com.richmeat.ApplicationKt'
-    }
-}
+//jar {
+//    manifest {
+//        attributes 'Main-Class': 'com.richmeat.ApplicationKt'
+//    }
+//}
 
 task fatJar(type: Jar) {
     manifest {

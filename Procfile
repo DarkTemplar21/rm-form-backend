@@ -1,1 +1,1 @@
-web: java -jar build/libs/richmeat-0.0.1.jar
+web: java -jar build/libs/rm-form-backend-0.0.1.jar
