@@ -36,9 +36,9 @@ class UserService {
 //            private val dbUser = appConfig.property("db.dbUser").getString()
 //            private val dbPassword = appConfig.property("db.dbPassword").getString()
 
-        fun init() {
-            Database.connect(hikari())
-        }
+//        fun init() {
+//            Database.connect(hikari())
+//        }
 
         private fun hikari(): HikariDataSource {
             //ok for heroku
