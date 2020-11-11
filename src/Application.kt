@@ -44,7 +44,7 @@ fun main(args: Array<String>) {
 
 
             get("/hi") {
-                call.respondText("Hello World all ok 1!", ContentType.Text.Plain)
+                call.respondText("Hello World all ok Ariandi is my girl!", ContentType.Text.Plain)
             }
 
 
