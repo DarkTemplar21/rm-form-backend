@@ -76,7 +76,7 @@ fun main(args: Array<String>) {
 
             post("richmeat/login") {
                 val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
-                data
+                dataBaseService.loginRquest(userLogin)
                 call.respond(HttpStatusCode.Created)
             }
 
