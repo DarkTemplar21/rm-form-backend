@@ -3,7 +3,6 @@ package com.richmeat
 import com.google.gson.Gson
 import com.richmeat.data.model.DataBaseService
 import com.richmeat.data.model.user.Login
-import com.richmeat.data.model.user.User
 import com.richmeat.data.model.user.UserService
 import io.ktor.application.call
 import io.ktor.application.install
@@ -63,11 +62,6 @@ fun main(args: Array<String>) {
 
 
             //not Used endpoints
-            post("richmeat/productivity") {
-                val productivity = Gson().fromJson(call.receive<String>(), Array<Module>::class.java)
-//                productivityService.insertProductivity(productivity)
-                call.respond(HttpStatusCode.Created)
-            }
 
             get("/richmeat/users") {
                 call.respond(gson.toJson(userService.getAllUsers()))
