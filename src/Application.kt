@@ -2,6 +2,7 @@ package com.richmeat
 
 import com.google.gson.Gson
 import com.richmeat.data.model.DataBaseService
+import com.richmeat.data.model.form.Form
 import com.richmeat.data.model.form.FormService
 import com.richmeat.data.model.user.Login
 import com.richmeat.data.model.user.UserService
@@ -57,6 +58,10 @@ fun main(args: Array<String>) {
                 val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 var loginSuccess = dataBaseService.loginRequest(userLogin)
                 call.respond(HttpStatusCode.Created,"login:"+ loginSuccess)
+            }
+            post("/richmeat/forms"){
+                val newform = Gson().fromJson(call.receive<String>(), Form::class.java)
+                formService.insertForm(newform)
             }
 
         }

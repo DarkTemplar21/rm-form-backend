@@ -26,8 +26,6 @@ class UserService {
             toUser(it)
 
         }
-
-
     }
     object DatabaseFactory {
         fun init() {
