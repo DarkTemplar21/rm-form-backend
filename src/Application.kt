@@ -2,6 +2,7 @@ package com.richmeat
 
 import com.google.gson.Gson
 import com.richmeat.data.model.DataBaseService
+import com.richmeat.data.model.form.FormService
 import com.richmeat.data.model.user.Login
 import com.richmeat.data.model.user.UserService
 import io.ktor.application.call
@@ -24,6 +25,7 @@ fun main(args: Array<String>) {
    UserService.DatabaseFactory.init()
     val userService = UserService()
     val dataBaseService = DataBaseService()
+    val formService = FormService()
     val gson = Gson()
 
     val port = System.getenv("PORT")?.toInt() ?: 8080
@@ -47,6 +49,10 @@ fun main(args: Array<String>) {
 
             get("/richmeat/users") {
                 call.respond(gson.toJson(userService.getAllUsers()))
+            }
+
+            get("/richmeat/forms") {
+                call.respond(gson.toJson(formService.getAllForms()))
             }
 
 
