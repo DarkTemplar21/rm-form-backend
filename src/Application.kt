@@ -40,9 +40,6 @@ fun main(args: Array<String>) {
             anyHost()
         }
         routing {
-
-
-
             get("/hi") {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
