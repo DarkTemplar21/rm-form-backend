@@ -11,7 +11,9 @@ import java.util.*
 object Users: Table() {
     val name: Column<String> = text("name")
     val email: Column<String> = text("email")
+    val userName: Column<String> = text("user_name")
     val password: Column<String> = text("password")
+    val authToken: Column<String> = text("auth_token")
 }
 
 
