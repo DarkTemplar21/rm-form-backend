@@ -37,42 +37,24 @@ fun main(args: Array<String>) {
             header("richmeat")
             anyHost()
         }
-
-
         routing {
 
 
 
             get("/hi") {
-                call.respondText("Hello World all ok Ariandi is my girl!", ContentType.Text.Plain)
+                call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
-
-
-            post("richmeat/modules") {
-                try {
-                    val productivity = Gson().fromJson(call.receive<String>(), Array<Login>::class.java)
-                    call.respond(HttpStatusCode.Created)
-
-                } catch (e: Exception) {
-                    call.respond(e.printStackTrace())
-                }
-
-
-            }
-
-
 
             get("/richmeat/users") {
                 call.respond(gson.toJson(userService.getAllUsers()))
             }
-            get("/richmeat/productivity") {
-            }
 
-//            post("richmeat/login") {
-//                val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
-//                dataBaseService.loginRquest(userLogin)
-//                call.respond(HttpStatusCode.Created)
-//            }
+
+            post("/richmeat/login") {
+                val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
+                dataBaseService.loginRquest(userLogin)
+                call.respond(HttpStatusCode.Created)
+            }
 
         }
 
