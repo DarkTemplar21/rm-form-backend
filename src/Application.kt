@@ -1,5 +1,6 @@
 package com.richmeat
 
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.google.gson.Gson
 import com.richmeat.data.DataBaseService
 import com.richmeat.data.form.Form
@@ -7,15 +8,18 @@ import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.UserService
 import data.model.JwtConfig
+import data.model.util.login
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.authenticate
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.CORS
+import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
+import io.ktor.jackson.jackson
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.response.respondText
@@ -24,6 +28,7 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import java.lang.Compiler.enable
 
 fun main(args: Array<String>) {
 
@@ -43,7 +48,16 @@ fun main(args: Array<String>) {
             method(method = HttpMethod("PUT"))
             header("richmeat")
             anyHost()
+
+
         }
+        install(ContentNegotiation) {
+            jackson {
+                enable(SerializationFeature.INDENT_OUTPUT)
+            }
+        }
+
+
         install(Authentication) {
             jwt {
                 verifier(JwtConfig.verifier)
@@ -70,8 +84,9 @@ fun main(args: Array<String>) {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
             authenticate {
-                get("/authenticate") {
-                    call.respond("all ok auth valid")
+                get("/authenticate"){
+                    call.respond("get authenticated value from token " +
+                            "name = ${call.login?.userName}, password= ${call.login?.password}")
                 }
             }
 
