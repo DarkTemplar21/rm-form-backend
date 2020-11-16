@@ -11,6 +11,8 @@ import com.richmeat.data.model.user.UserService
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
+import io.ktor.auth.Principal
+import io.ktor.auth.authenticate
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.CORS
 import io.ktor.http.ContentType
@@ -47,12 +49,11 @@ fun main(args: Array<String>) {
         }
         install(Authentication) {
             jwt {
-                verifier(Login.buildJwtVerifier())
                 realm = "com.ds-form-rm"
                 validate {
-                    val name = it.payload.getClaim("name").toString()
+                    val userName = it.payload.getClaim("name").toString()
                     val password = it.payload.getClaim("password").toString()
-                    Login(name,password) -> valida
+                    Login(userName,password) as Principal
                 }
 
             }
@@ -62,6 +63,12 @@ fun main(args: Array<String>) {
         routing {
             get("/hi") {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
+            }
+            authenticate {
+                get("/richmeat/authenticate") {
+
+
+                }
             }
 
             get("/richmeat/users") {
