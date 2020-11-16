@@ -46,13 +46,12 @@ fun main(args: Array<String>) {
         }
         install(Authentication) {
             jwt {
-
                 verifier(JwtConfig.verifier)
                 realm = "com.imran"
                 validate {
                     val userName = it.payload.getClaim("name").toString()
                     val password = it.payload.getClaim("password").toString()
-                    if (dataBaseService.loginExists(Login(userName, password))){
+                    if (!userName.isEmpty()){
                         print("login exists")
                         Login(userName, password)
                     }else{
@@ -71,7 +70,6 @@ fun main(args: Array<String>) {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
             authenticate {
-
                 get("/authenticate") {
                     call.respond("all ok auth valid")
                 }
