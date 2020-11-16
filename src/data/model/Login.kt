@@ -3,7 +3,6 @@ package com.richmeat.data.model
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.auth.Principal
-import sun.security.x509.IssuerAlternativeNameExtension
 
 data class Login(
     val userName: String,

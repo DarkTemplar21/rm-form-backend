@@ -6,6 +6,7 @@ import com.richmeat.data.form.Form
 import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.UserService
+import data.model.JwtConfig
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
@@ -46,8 +47,9 @@ fun main(args: Array<String>) {
         }
         install(Authentication) {
             jwt {
-                realm = "com.ds-form-rm"
-                verifier(Login.buildJwtVerifier())
+
+                verifier(JwtConfig.verifier)
+                realm = "com.imran"
                 validate {
                     val userName = it.payload.getClaim("name").toString()
                     val password = it.payload.getClaim("password").toString()
@@ -96,9 +98,10 @@ fun main(args: Array<String>) {
             }
 
             post("/richmeat/generate_token") {
-                val login = Gson().fromJson(call.receive<String>(), Login::class.java)
-                val token = Login.generateToken(login)
-                call.respond(HttpStatusCode.Created, token)
+                val login = call.receive<Login>()
+                print("${login.userName} , pwd= ${login.password}")
+                val token = JwtConfig.generateToken(login)
+                call.respond(token)
             }
 
         }
