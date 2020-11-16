@@ -25,7 +25,6 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
-
 fun main(args: Array<String>) {
 
     UserService.DatabaseFactory.init()
@@ -98,7 +97,7 @@ fun main(args: Array<String>) {
             }
 
             post("/richmeat/generate_token") {
-                val login = call.receive<Login>()
+                val login = Gson().fromJson(call.receive<String>(), Login::class.java)
                 print("${login.userName} , pwd= ${login.password}")
                 val token = JwtConfig.generateToken(login)
                 call.respond(token)
