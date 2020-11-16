@@ -47,9 +47,9 @@ class FormService {
         }
 
     private fun toForm(row: ResultRow) =
-        Form(
-            created_date = row[created_date],
-            reviewed_date = row[reviewed_date],
+        FormDTO(
+            created_date = row[created_date].toString("dd-MM-yyyy HH:mm:ss"),
+            reviewed_date = row[reviewed_date].toString("dd-MM-yyyy HH:mm:ss"),
             status = row[status],
             created_by = row[created_by],
             reviewed_by = row[reviewed_by],
@@ -82,7 +82,7 @@ class FormService {
             atemperado_mp_reviewed = row[atemperado_mp_reviewed]
         )
 
-    suspend fun getAllForms(): List<Form> = dbQuery {
+    suspend fun getAllForms(): List<FormDTO> = dbQuery {
         return@dbQuery Forms.selectAll().map {
             toForm(it)
         }
