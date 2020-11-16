@@ -22,7 +22,7 @@ data class Login(
 
         fun generateToken(login: Login): String = JWT.create()
             .withSubject("Authentication")
-            .withIssuer(IssuerAlternativeNameExtension.ISSUER_NAME)
+            .withIssuer("secretKey123")
             .withClaim("userName", login.userName)
             .withClaim("password", login.password)
             .sign(Algorithm.HMAC256("secretKey123"))
