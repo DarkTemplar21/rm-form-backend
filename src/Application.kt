@@ -62,12 +62,11 @@ fun main(args: Array<String>) {
 
         routing {
             get("/hi") {
-                call.respondText("Hello World all ok", ContentType.Text.Plain)
+                call.respondText("Hello World all ok night es nija", ContentType.Text.Plain)
             }
             authenticate {
-                get("/richmeat/authenticate") {
 
-
+                get("/authenticate") {
                 }
             }
 
