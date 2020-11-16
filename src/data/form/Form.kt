@@ -1,4 +1,4 @@
-package com.richmeat.data.model.form
+package com.richmeat.data.form
 
 import org.joda.time.DateTime
 

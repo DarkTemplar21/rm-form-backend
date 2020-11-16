@@ -1,15 +1,10 @@
-package com.richmeat.data.model
+package com.richmeat.data
 
-import com.richmeat.data.model.form.Form
-import com.richmeat.data.model.form.Forms
-import com.richmeat.data.model.user.Login
+import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.Users
-import com.richmeat.data.model.user.Users.name
 import com.richmeat.data.model.user.Users.password
 import com.richmeat.data.model.user.Users.userName
 
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.*

@@ -1,4 +1,4 @@
-package data.model.util
+package com.richmeat.data.model.util
 
 import java.awt.print.PrinterJob
 import java.io.File
@@ -12,7 +12,8 @@ object PrintingExample {
     @JvmStatic
     fun main(args: Array<String>) {
         val document: PDDocument = PDDocument.load(File("C:/temp/example.pdf"))
-        val myPrintService: PrintService? = findPrintService("My Windows printer Name")
+        val myPrintService: PrintService? =
+            findPrintService("My Windows printer Name")
         val job: PrinterJob = PrinterJob.getPrinterJob()
         job.setPageable((document))
         job.setPrintService(myPrintService)

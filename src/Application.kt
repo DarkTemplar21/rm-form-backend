@@ -1,13 +1,17 @@
 package com.richmeat
 
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
 import com.google.gson.Gson
-import com.richmeat.data.model.DataBaseService
-import com.richmeat.data.model.form.Form
-import com.richmeat.data.model.form.FormService
-import com.richmeat.data.model.user.Login
+import com.richmeat.data.DataBaseService
+import com.richmeat.data.form.Form
+import com.richmeat.data.form.FormService
+import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.UserService
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.auth.Authentication
+import io.ktor.auth.jwt.jwt
 import io.ktor.features.CORS
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
@@ -21,9 +25,10 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
+
 fun main(args: Array<String>) {
 
-   UserService.DatabaseFactory.init()
+    UserService.DatabaseFactory.init()
     val userService = UserService()
     val dataBaseService = DataBaseService()
     val formService = FormService()
@@ -40,6 +45,20 @@ fun main(args: Array<String>) {
             header("richmeat")
             anyHost()
         }
+        install(Authentication) {
+            jwt {
+                verifier(Login.buildJwtVerifier())
+                realm = "com.ds-form-rm"
+                validate {
+                    val name = it.payload.getClaim("name").toString()
+                    val password = it.payload.getClaim("password").toString()
+                    Login(name,password) -> valida
+                }
+
+            }
+        }
+
+
         routing {
             get("/hi") {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
@@ -57,16 +76,27 @@ fun main(args: Array<String>) {
             post("/richmeat/login") {
                 val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 var loginSuccess = dataBaseService.loginRequest(userLogin)
-                call.respond(HttpStatusCode.Created,"login:"+ loginSuccess)
+                call.respond(HttpStatusCode.Created, "login:" + loginSuccess)
             }
-            post("/richmeat/forms"){
+            post("/richmeat/forms") {
                 val newform = Gson().fromJson(call.receive<String>(), Form::class.java)
                 formService.insertForm(newform)
             }
 
+            post ("/richmeat/generate_token"){
+                val login = Gson().fromJson(call.receive<String>(), Login::class.java)
+                val token = Login.generateToken(login)
+                call.respond(HttpStatusCode.Created, token)
+            }
+
         }
 
+
     }
+
+
+
+
 
     server.start(wait = true)
 }

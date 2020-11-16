@@ -1,6 +1,5 @@
-package com.richmeat.data.model.form
+package com.richmeat.data.form
 
-import com.richmeat.data.model.user.Users
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 import org.joda.time.DateTime

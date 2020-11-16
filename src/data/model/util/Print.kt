@@ -1,4 +1,4 @@
-package data.model.util
+package com.richmeat.data.model.util
 
 import java.awt.GraphicsEnvironment
 import java.io.FileInputStream
