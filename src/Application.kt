@@ -86,7 +86,7 @@ fun main(args: Array<String>) {
             authenticate {
                 get("/authenticate"){
                     call.respond("get authenticated value from token " +
-                            "name = ${call.login?.userName.toString()}, password= ${call.login?.password.toString()}")
+                            "name = ${Gson().fromJson(call.login?.userName, String::class.java)}, password= ${call.login?.password.toString()}")
                 }
             }
 
