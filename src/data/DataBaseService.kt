@@ -21,7 +21,7 @@ class DataBaseService {
         }
 
 
-    suspend fun loginRequest(login: Login): Boolean = dbQuery {
+    suspend fun loginExists(login: Login): Boolean = dbQuery {
         return@dbQuery Users.select { userName eq login.userName and (password eq login.password) }.count() > 0
     }
 
