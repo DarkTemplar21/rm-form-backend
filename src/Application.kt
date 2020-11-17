@@ -67,9 +67,10 @@ fun main(args: Array<String>) {
                 validate {
                     val userName = it.payload.getClaim("userName").toString()
                     val password = it.payload.getClaim("password").toString()
-                    if (!userName.isEmpty()) {
+                    val login = Login(userName, password)
+                    if (dataBaseService.loginExists(login)) {
                         print("login exists")
-                        Login(userName, password)
+                        login
                     } else {
                         print("login dont exists exists")
                         null
