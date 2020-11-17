@@ -17,13 +17,15 @@ object JwtConfig {
         .withIssuer(issuer)
         .build()
 
+
+
     /**
      * Produce a token for this combination of name and password
      */
     fun generateToken(login: Login): String = JWT.create()
         .withSubject("Authentication")
         .withIssuer(issuer)
-        .withClaim("name", login.userName)
+        .withClaim("userName", login.userName)
         .withClaim("password", login.password)
         .withExpiresAt(getExpiration())  // optional
         .sign(algorithm)

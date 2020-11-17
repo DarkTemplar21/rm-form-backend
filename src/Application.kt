@@ -1,5 +1,6 @@
 package com.richmeat
 
+import com.auth0.jwt.JWT
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.google.gson.Gson
 import com.richmeat.data.DataBaseService
@@ -13,6 +14,7 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.authenticate
+import io.ktor.auth.authentication
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
@@ -63,12 +65,12 @@ fun main(args: Array<String>) {
                 verifier(JwtConfig.verifier)
                 realm = "com.imran"
                 validate {
-                    val userName = it.payload.getClaim("name").toString()
+                    val userName = it.payload.getClaim("userName").toString()
                     val password = it.payload.getClaim("password").toString()
-                    if (!userName.isEmpty()){
+                    if (!userName.isEmpty()) {
                         print("login exists")
                         Login(userName, password)
-                    }else{
+                    } else {
                         print("login dont exists exists")
                         null
                     }
@@ -84,37 +86,53 @@ fun main(args: Array<String>) {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
             authenticate {
-                get("/authenticate"){
-                    call.respond("get authenticated value from token " +
-                            "name = ${Gson().fromJson(call.login.toString(), Login::class.java)}, password= ${call.login?.password.toString()}")
+                get("/authenticate") {
+                    val jwt =
+                        JWT.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsInBhc3N3b3JkIjoiYWxlIiwiaXNzIjoiY29tLmltcmFuIiwibmFtZSI6ImFsZSIsImV4cCI6MTYwNTcwNzEzNX0.gj7MKqbjbKOPETh4lcbnQGsCZVg1YgRCujbSyiiSsrYSJmIUacX148tR6qdI-UV1vwLCcfii2fUxzHTShmaAHw")
+                    val user = jwt.getClaim("userName")
+                    val pass = jwt.getClaim("password")
+                    call.respond(
+                        "get authenticated value from token " +
+                                "name = ${call.authentication.principal<Login>()}, password= ${call.login?.password.toString()}"
+                    )
+                    call.respond(
+                        "get authenticated value from token " +
+                                "name = ${Gson().fromJson(
+                                    call.login.toString(),
+                                    Login::class.java
+                                )}, password= ${call.login?.password.toString()}"
+                    )
                 }
+                get("/richmeat/users") {
+                    call.respond(gson.toJson(userService.getAllUsers()))
+                }
+
+                get("/richmeat/forms") {
+                    call.respond(gson.toJson(formService.getAllForms()))
+                }
+
             }
 
-            get("/richmeat/users") {
-                call.respond(gson.toJson(userService.getAllUsers()))
-            }
-
-            get("/richmeat/forms") {
-                call.respond(gson.toJson(formService.getAllForms()))
-            }
 
 
             post("/richmeat/login") {
                 val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 var loginExists = dataBaseService.loginExists(userLogin)
-                call.respond(HttpStatusCode.Created, "login:" + loginExists)
-            }
-            post("/richmeat/forms") {
-                val newform = Gson().fromJson(call.receive<String>(), Form::class.java)
-                formService.insertForm(newform)
+                if (loginExists) {
+                    val token = JwtConfig.generateToken(userLogin)
+                    call.respond(HttpStatusCode.OK, "Token:$token")
+
+                }
+                call.respond(HttpStatusCode.Unauthorized)
             }
 
-            post("/richmeat/generate_token") {
-                val login = Gson().fromJson(call.receive<String>(), Login::class.java)
-                print("${login.userName} , pwd= ${login.password}")
-                val token = JwtConfig.generateToken(login)
-                call.respond(token)
-            }
+
+//            post("/richmeat/generate_token") {
+//                val login = Gson().fromJson(call.receive<String>(), Login::class.java)
+//                print("${login.userName} , pwd= ${login.password}")
+//                val token = JwtConfig.generateToken(login)
+//                call.respond(token)
+//            }
 
         }
 

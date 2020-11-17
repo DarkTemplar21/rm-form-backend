@@ -17,6 +17,7 @@ apply plugin: 'kotlin'
 //apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'application'
+group 'com.imran'
 mainClassName='com.richmeat.ApplicationKt'
 
 //apply plugin: 'com.github.johnrengelman.shadow'
@@ -98,9 +99,11 @@ dependencies {
 
 
    //Authentication and token
-    implementation "io.ktor:ktor-auth:0.9.0"
+    implementation "io.ktor:ktor-auth:$ktor_version"
     implementation "io.ktor:ktor-auth-jwt:$ktor_version"
     implementation "io.ktor:ktor-jackson:$ktor_version"
+    implementation "ch.qos.logback:logback-classic:$logback_version"
+
 
 
 
