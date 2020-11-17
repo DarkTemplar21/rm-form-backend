@@ -89,6 +89,7 @@ fun main(args: Array<String>) {
             }
 
                 get("/authenticate") {
+
                     val jwt =
                         JWT.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsInBhc3N3b3JkIjoiYWxlIiwiaXNzIjoiY29tLmltcmFuIiwibmFtZSI6ImFsZSIsImV4cCI6MTYwNTcwNzEzNX0.gj7MKqbjbKOPETh4lcbnQGsCZVg1YgRCujbSyiiSsrYSJmIUacX148tR6qdI-UV1vwLCcfii2fUxzHTShmaAHw")
                     val user = jwt.getClaim("userName")
@@ -116,8 +117,9 @@ fun main(args: Array<String>) {
                 post("/richmeat/form"){
                     val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
                     formService.insertForm(newForm)
+                    call.respond(HttpStatusCode.Created)
                 }
-            
+
 
 
 
