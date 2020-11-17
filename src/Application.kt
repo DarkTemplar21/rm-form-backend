@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.google.gson.Gson
 import com.richmeat.data.DataBaseService
 import com.richmeat.data.form.Form
+import com.richmeat.data.form.FormDTO
 import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.UserService
@@ -86,7 +87,7 @@ fun main(args: Array<String>) {
             get("/hi") {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
-            authenticate {
+
                 get("/authenticate") {
                     val jwt =
                         JWT.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsInBhc3N3b3JkIjoiYWxlIiwiaXNzIjoiY29tLmltcmFuIiwibmFtZSI6ImFsZSIsImV4cCI6MTYwNTcwNzEzNX0.gj7MKqbjbKOPETh4lcbnQGsCZVg1YgRCujbSyiiSsrYSJmIUacX148tR6qdI-UV1vwLCcfii2fUxzHTShmaAHw")
@@ -112,7 +113,11 @@ fun main(args: Array<String>) {
                     call.respond(gson.toJson(formService.getAllForms()))
                 }
 
-            }
+                post("/richmeat/form"){
+                    val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
+                    formService.insertForm(newForm)
+                }
+            
 
 
 
