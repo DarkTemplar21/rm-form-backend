@@ -1,4 +1,4 @@
-package com.richmeat.data.model.util
+package com.richmeat.data.util
 
 import java.awt.print.PrinterJob
 import javax.print.PrintService
@@ -48,4 +48,5 @@ object PrintUtility {
             }
             return list
         }
+
 }

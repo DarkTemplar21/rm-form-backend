@@ -32,6 +32,7 @@ import com.richmeat.data.form.Forms.proceso_reviewed
 import com.richmeat.data.form.Forms.reviewed_by
 import com.richmeat.data.form.Forms.reviewed_date
 import com.richmeat.data.form.Forms.status
+import com.richmeat.data.util.DateHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.ResultRow
@@ -93,7 +94,7 @@ class FormService {
 
     fun insertForm(form: FormDTO) {
          transaction {
-             val formatter: DateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm:ss")
+             val formatter: DateTimeFormatter = DateTimeFormat.forPattern(DateHelper.DATE_FORMAT)
              val createdDate: DateTime = formatter.parseDateTime(form.created_date)
              val reviewedDate: DateTime = formatter.parseDateTime(form.reviewed_date)
              transaction {

@@ -10,7 +10,7 @@ import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.UserService
 import data.model.JwtConfig
-import data.model.util.login
+import com.richmeat.data.util.login
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
@@ -53,6 +53,7 @@ fun main(args: Array<String>) {
             anyHost()
 
 
+
         }
         install(ContentNegotiation) {
             jackson {
@@ -88,37 +89,37 @@ fun main(args: Array<String>) {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
 
-                get("/authenticate") {
+            get("/authenticate") {
 
-                    val jwt =
-                        JWT.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsInBhc3N3b3JkIjoiYWxlIiwiaXNzIjoiY29tLmltcmFuIiwibmFtZSI6ImFsZSIsImV4cCI6MTYwNTcwNzEzNX0.gj7MKqbjbKOPETh4lcbnQGsCZVg1YgRCujbSyiiSsrYSJmIUacX148tR6qdI-UV1vwLCcfii2fUxzHTShmaAHw")
-                    val user = jwt.getClaim("userName")
-                    val pass = jwt.getClaim("password")
-                    call.respond(
-                        "get authenticated value from token " +
-                                "name = ${call.authentication.principal<Login>()}, password= ${call.login?.password.toString()}"
-                    )
-                    call.respond(
-                        "get authenticated value from token " +
-                                "name = ${Gson().fromJson(
-                                    call.login.toString(),
-                                    Login::class.java
-                                )}, password= ${call.login?.password.toString()}"
-                    )
-                }
-                get("/richmeat/users") {
-                    call.respond(gson.toJson(userService.getAllUsers()))
-                }
+                val jwt =
+                    JWT.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsInBhc3N3b3JkIjoiYWxlIiwiaXNzIjoiY29tLmltcmFuIiwibmFtZSI6ImFsZSIsImV4cCI6MTYwNTcwNzEzNX0.gj7MKqbjbKOPETh4lcbnQGsCZVg1YgRCujbSyiiSsrYSJmIUacX148tR6qdI-UV1vwLCcfii2fUxzHTShmaAHw")
+                val user = jwt.getClaim("userName")
+                val pass = jwt.getClaim("password")
+                call.respond(
+                    "get authenticated value from token " +
+                            "name = ${call.authentication.principal<Login>()}, password= ${call.login?.password.toString()}"
+                )
+                call.respond(
+                    "get authenticated value from token " +
+                            "name = ${Gson().fromJson(
+                                call.login.toString(),
+                                Login::class.java
+                            )}, password= ${call.login?.password.toString()}"
+                )
+            }
+            get("/richmeat/users") {
+                call.respond(gson.toJson(userService.getAllUsers()))
+            }
 
-                get("/richmeat/forms") {
-                    call.respond(gson.toJson(formService.getAllForms()))
-                }
+            get("/richmeat/forms") {
+                call.respond(gson.toJson(formService.getAllForms()))
+            }
 
-                post("/richmeat/form"){
-                    val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
-                    formService.insertForm(newForm)
-                    call.respond(HttpStatusCode.Created)
-                }
+            post("/richmeat/form") {
+                val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
+                formService.insertForm(newForm)
+                call.respond(HttpStatusCode.Created)
+            }
 
 
 
