@@ -120,6 +120,11 @@ fun main(args: Array<String>) {
                 formService.insertForm(newForm)
                 call.respond(HttpStatusCode.Created)
             }
+            post("/richmeat/sign_up") {
+                val newUserLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
+                dataBaseService.createUser(newUserLogin)
+                call.respond(HttpStatusCode.Created)
+            }
 
 
 

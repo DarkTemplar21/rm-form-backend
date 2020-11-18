@@ -9,8 +9,6 @@ object PrintUtility {
      *
      * @return
      */
-
-
     fun findPrintService(printerName: String): PrintService? {
         var printerName = printerName
         printerName = printerName.toLowerCase()

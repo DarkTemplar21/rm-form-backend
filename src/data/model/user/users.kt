@@ -9,7 +9,6 @@ import java.util.*
 
 
 object Users: Table() {
-    val id: Column<Int> = integer("id").autoIncrement()
     val name: Column<String> = text("name")
     val email: Column<String> = text("email")
     val userName: Column<String> = text("user_name")
