@@ -95,8 +95,8 @@ class FormService {
     fun insertForm(form: FormDTO) {
          transaction {
              val formatter: DateTimeFormatter = DateTimeFormat.forPattern(DateHelper.DATE_FORMAT)
-             val createdDate: DateTime = formatter.parseDateTime(form.created_date)
-             val reviewedDate: DateTime = formatter.parseDateTime(form.reviewed_date)
+             val createdDate: DateTime = formatter.parseDateTime("18-11-2020 10:00:00")
+             val reviewedDate: DateTime = formatter.parseDateTime("18-11-2020 10:00:00")
              transaction {
                  Forms.insert {
                      it[created_date] = createdDate
