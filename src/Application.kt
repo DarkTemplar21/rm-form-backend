@@ -54,7 +54,6 @@ fun main(args: Array<String>) {
             anyHost()
 
 
-
         }
         install(ContentNegotiation) {
             jackson {
@@ -87,38 +86,42 @@ fun main(args: Array<String>) {
 
         routing {
             get("/hi") {
-                call.respondText("Hello World all ok", ContentType.Text.Plain)
+
+                var text = "get /authenticate -Recibe el Bearer token como heather y devuelve el usuario y contraseña para pruebas\n" +
+                        "get /users -Devuelve los usuarios\nget /forms-Devuelve los formularios de temperatura\n" +
+                        "post /form -Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created\n" +
+                        "get /forms -Devuelve los formularios de temperatura\npost /sign_up-Recibe un usuario {\"userName\":\"ariandi\",\"password\":\"ariandi\"}para registro Retorna Codigo 201-Created\n" +
+                        "post /sign_up -Recibe un usuario {\"userName\":\"ariandi\",\"password\":\"ariandi\"}para registro Retorna Codigo 201-Created\n" +
+                        "post /login -Recibe un usuario para logearse {\"userName\":\"ariandi\",\"password\":\"ariandi\"} Retorna Codigo 201-Created"
+                call.respondText(text, ContentType.Text.Plain)
             }
-                authenticate {
-                get("/authenticate") {
+            authenticate {
+                //get /authenticate-Recibe el Bearer token como heather y devuelve el usuario y contraseña para pruebas
+                get("/richmeat/authenticate") {
                     call.respond("User is: ${call.login?.userName} Passoword is: ${call.login?.password}")
-                       
-
                 }
-
+                //get /users-Devuelve los usuarios
+                get("/richmeat/users") {
+                    call.respond(gson.toJson(userService.getAllUsers()))
+                }
+                //get /forms-Devuelve los formularios de temperatura
+                get("/richmeat/forms") {
+                    call.respond(gson.toJson(formService.getAllForms()))
+                }
+                //post /form-Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created
+                post("/richmeat/form") {
+                    val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
+                    formService.insertForm(newForm)
+                    call.respond(HttpStatusCode.Created)
+                }
             }
-            get("/richmeat/users") {
-                call.respond(gson.toJson(userService.getAllUsers()))
-            }
-
-            get("/richmeat/forms") {
-                call.respond(gson.toJson(formService.getAllForms()))
-            }
-
-            post("/richmeat/form") {
-                val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
-                formService.insertForm(newForm)
-                call.respond(HttpStatusCode.Created)
-            }
+            //post /sign_up-Recibe un usuario {"userName":"ariandi","password":"ariandi"}para registro Retorna Codigo 201-Created
             post("/richmeat/sign_up") {
                 val newUserLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 dataBaseService.createUser(newUserLogin)
                 call.respond(HttpStatusCode.Created)
             }
-
-
-
-
+            //post /login-Recibe un usuario para logearse {"userName":"ariandi","password":"ariandi"} Retorna Codigo 201-Created
             post("/richmeat/login") {
                 val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 var loginExists = dataBaseService.loginExists(userLogin)
@@ -129,8 +132,6 @@ fun main(args: Array<String>) {
                 }
                 call.respond(HttpStatusCode.Unauthorized)
             }
-
-
             post("/richmeat/generate_token") {
                 val login = Gson().fromJson(call.receive<String>(), Login::class.java)
                 print("${login.userName} , pwd= ${login.password}")
@@ -149,6 +150,7 @@ fun main(args: Array<String>) {
 
     server.start(wait = true)
 }
+
 
 
 
