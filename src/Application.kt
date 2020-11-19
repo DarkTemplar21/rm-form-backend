@@ -1,10 +1,8 @@
 package com.richmeat
 
-import com.auth0.jwt.JWT
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.google.gson.Gson
 import com.richmeat.data.DataBaseService
-import com.richmeat.data.form.Form
 import com.richmeat.data.form.FormDTO
 import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
@@ -14,9 +12,7 @@ import com.richmeat.data.util.login
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
-import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.authenticate
-import io.ktor.auth.authentication
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
@@ -32,7 +28,6 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import java.lang.Compiler.enable
 
 fun main(args: Array<String>) {
 
@@ -87,10 +82,10 @@ fun main(args: Array<String>) {
         routing {
             get("/hi") {
 
-                var text = "get /authenticate -Recibe el Bearer token como heather y devuelve el usuario y contraseña para pruebas\n" +
+                var text = "get /authenticate -Recibe el Bearer token como header y devuelve el usuario y contraseña para pruebas\n" +
                         "get /users -Devuelve los usuarios\nget /forms-Devuelve los formularios de temperatura\n" +
                         "post /form -Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created\n" +
-                        "get /forms -Devuelve los formularios de temperatura\npost /sign_up-Recibe un usuario {\"userName\":\"ariandi\",\"password\":\"ariandi\"}para registro Retorna Codigo 201-Created\n" +
+                        "get /forms -Devuelve los formularios de temperatura\n" +
                         "post /sign_up -Recibe un usuario {\"userName\":\"ariandi\",\"password\":\"ariandi\"}para registro Retorna Codigo 201-Created\n" +
                         "post /login -Recibe un usuario para logearse {\"userName\":\"ariandi\",\"password\":\"ariandi\"} Retorna Codigo 201-Created"
                 call.respondText(text, ContentType.Text.Plain)
@@ -106,12 +101,14 @@ fun main(args: Array<String>) {
                 }
                 //get /forms-Devuelve los formularios de temperatura
                 get("/richmeat/forms") {
-                    call.respond(gson.toJson(formService.getAllForms()))
+                    val userName = call.login?.userName
+                    call.respond(gson.toJson(formService.getAllUserForms(userName!!)))
                 }
                 //post /form-Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created
                 post("/richmeat/form") {
+                    val userName = call.login?.userName
                     val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
-                    formService.insertForm(newForm)
+                    formService.insertForm(newForm,userName!!)
                     call.respond(HttpStatusCode.Created)
                 }
             }

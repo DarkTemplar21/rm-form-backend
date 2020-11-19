@@ -36,7 +36,9 @@ import com.richmeat.data.util.DateHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
@@ -86,13 +88,13 @@ class FormService {
             atemperado_mp_reviewed = row[atemperado_mp_reviewed]
         )
 
-    suspend fun getAllForms(): List<FormDTO> = dbQuery {
-        return@dbQuery Forms.selectAll().map {
+    suspend fun getAllUserForms(userName : String): List<FormDTO> = dbQuery {
+        return@dbQuery Forms.select(created_by eq userName).map {
             toForm(it)
         }
     }
 
-    fun insertForm(form: FormDTO) {
+    fun insertForm(form: FormDTO,userName: String) {
          transaction {
              val formatter: DateTimeFormatter = DateTimeFormat.forPattern(DateHelper.DATE_FORMAT)
              val createdDate: DateTime = formatter.parseDateTime("18-11-2020 10:00:00")
@@ -102,7 +104,7 @@ class FormService {
                      it[created_date] = createdDate
                      it[reviewed_date] = reviewedDate
                      it[status] = form.status
-                     it[created_by] = form.created_by
+                     it[created_by] = userName
                      it[reviewed_by] = form.reviewed_by
                      it[anden_1y2_on] = form.anden_1y2_on
                      it[anden_1y2_in_range] = form.anden_1y2_in_range
