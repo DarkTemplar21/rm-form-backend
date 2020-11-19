@@ -14,6 +14,7 @@ import com.richmeat.data.util.login
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
+import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.authenticate
 import io.ktor.auth.authentication
 import io.ktor.auth.jwt.jwt
@@ -89,23 +90,25 @@ fun main(args: Array<String>) {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
 
-            get("/authenticate") {
+                get("/authenticate") {
+                    val principal = call.authentication.principal<OAuthAccessTokenResponse.OAuth2>()
+                    val token = principal?.accessToken
+                    val jwt =
+                        JWT.decode(token)
+                    val user = jwt.getClaim("userName")
+                    val pass = jwt.getClaim("password")
+                    call.respond(
+                        "get authenticated value from token " +
+                                "name = $user, password= $pass"
+                    )
+                    call.respond(
+                        "get authenticated value from token " +
+                                "name = ${Gson().fromJson(
+                                    call.login.toString(),
+                                    Login::class.java
+                                )}, password= ${call.login?.password.toString()}"
+                    )
 
-                val jwt =
-                    JWT.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsInBhc3N3b3JkIjoiYWxlIiwiaXNzIjoiY29tLmltcmFuIiwibmFtZSI6ImFsZSIsImV4cCI6MTYwNTcwNzEzNX0.gj7MKqbjbKOPETh4lcbnQGsCZVg1YgRCujbSyiiSsrYSJmIUacX148tR6qdI-UV1vwLCcfii2fUxzHTShmaAHw")
-                val user = jwt.getClaim("userName")
-                val pass = jwt.getClaim("password")
-                call.respond(
-                    "get authenticated value from token " +
-                            "name = ${call.authentication.principal<Login>()}, password= ${call.login?.password.toString()}"
-                )
-                call.respond(
-                    "get authenticated value from token " +
-                            "name = ${Gson().fromJson(
-                                call.login.toString(),
-                                Login::class.java
-                            )}, password= ${call.login?.password.toString()}"
-                )
             }
             get("/richmeat/users") {
                 call.respond(gson.toJson(userService.getAllUsers()))
@@ -141,12 +144,12 @@ fun main(args: Array<String>) {
             }
 
 
-//            post("/richmeat/generate_token") {
-//                val login = Gson().fromJson(call.receive<String>(), Login::class.java)
-//                print("${login.userName} , pwd= ${login.password}")
-//                val token = JwtConfig.generateToken(login)
-//                call.respond(token)
-//            }
+            post("/richmeat/generate_token") {
+                val login = Gson().fromJson(call.receive<String>(), Login::class.java)
+                print("${login.userName} , pwd= ${login.password}")
+                val token = JwtConfig.generateToken(login)
+                call.respond(token)
+            }
 
         }
 
