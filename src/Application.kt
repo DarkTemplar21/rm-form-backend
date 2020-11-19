@@ -91,6 +91,9 @@ fun main(args: Array<String>) {
             }
 
                 get("/authenticate") {
+                    try{
+
+
                     val principal = call.authentication.principal<OAuthAccessTokenResponse.OAuth2>()
                     val token = principal?.accessToken
                     val jwt =
@@ -108,6 +111,9 @@ fun main(args: Array<String>) {
                                     Login::class.java
                                 )}, password= ${call.login?.password.toString()}"
                     )
+                    }catch (e: Exception){
+                        call.respond(e.printStackTrace())
+                    }
 
             }
             get("/richmeat/users") {
