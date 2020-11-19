@@ -89,31 +89,26 @@ fun main(args: Array<String>) {
             get("/hi") {
                 call.respondText("Hello World all ok", ContentType.Text.Plain)
             }
-
+                authenticate {
                 get("/authenticate") {
-                    try{
+                    try {
 
 
-                    val principal = call.authentication.principal<OAuthAccessTokenResponse.OAuth2>()
-                    val token = principal?.accessToken
-                    val jwt =
-                        JWT.decode(token)
-                    val user = jwt.getClaim("userName")
-                    val pass = jwt.getClaim("password")
-                    call.respond(
-                        "get authenticated value from token " +
-                                "name = $user, password= $pass"
-                    )
-                    call.respond(
-                        "get authenticated value from token " +
-                                "name = ${Gson().fromJson(
-                                    call.login.toString(),
-                                    Login::class.java
-                                )}, password= ${call.login?.password.toString()}"
-                    )
-                    }catch (e: Exception){
+                        val principal = call.authentication.principal<OAuthAccessTokenResponse.OAuth2>()
+                        val token = principal?.accessToken
+                        val jwt =
+                            JWT.decode(token)
+                        val user = jwt.getClaim("userName")
+                        val pass = jwt.getClaim("password")
+                        call.respond(
+                            "get authenticated value from token " +
+                                    "name = $user, password= $pass"
+                        )
+                       
+                    } catch (e: Exception) {
                         call.respond(e.printStackTrace())
                     }
+                }
 
             }
             get("/richmeat/users") {
