@@ -68,8 +68,8 @@ fun main(args: Array<String>) {
                 verifier(JwtConfig.verifier)
                 realm = "com.imran"
                 validate {
-                    val userName = it.payload.getClaim("userName").toString()
-                    val password = it.payload.getClaim("password").toString()
+                    val userName = it.payload.getClaim("userName").asString()
+                    val password = it.payload.getClaim("password").asString()
                     val login = Login(userName, password)
                     if (dataBaseService.loginExists(login)) {
                         print("login exists")
@@ -91,23 +91,9 @@ fun main(args: Array<String>) {
             }
                 authenticate {
                 get("/authenticate") {
-                    try {
-
-
-                        val principal = call.authentication.principal<OAuthAccessTokenResponse.OAuth2>()
-                        val token = principal?.accessToken
-                        val jwt =
-                            JWT.decode(token)
-                        val user = jwt.getClaim("userName")
-                        val pass = jwt.getClaim("password")
-                        call.respond(
-                            "get authenticated value from token " +
-                                    "name = $user, password= $pass"
-                        )
+                    call.respond("User is: ${call.login?.userName} Passoword is: ${call.login?.password}")
                        
-                    } catch (e: Exception) {
-                        call.respond(e.printStackTrace())
-                    }
+
                 }
 
             }
