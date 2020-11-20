@@ -82,12 +82,13 @@ fun main(args: Array<String>) {
         routing {
             get("/hi") {
 
-                var text = "get /authenticate -Recibe el Bearer token como header y devuelve el usuario y contraseña para pruebas\n" +
-                        "get /users -Devuelve los usuarios\nget /forms-Devuelve los formularios de temperatura\n" +
-                        "post /form -Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created\n" +
-                        "get /forms -Devuelve los formularios de temperatura\n" +
-                        "post /sign_up -Recibe un usuario {\"userName\":\"ariandi\",\"password\":\"ariandi\"}para registro Retorna Codigo 201-Created\n" +
-                        "post /login -Recibe un usuario para logearse {\"userName\":\"ariandi\",\"password\":\"ariandi\"} Retorna Codigo 201-Created"
+                var text =
+                    "get /authenticate -Recibe el Bearer token como header y devuelve el usuario y contraseña para pruebas\n" +
+                            "get /users -Devuelve los usuarios\nget /forms-Devuelve los formularios de temperatura\n" +
+                            "post /form -Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created\n" +
+                            "get /forms -Devuelve los formularios de temperatura\n" +
+                            "post /sign_up -Recibe un usuario {\"userName\":\"ariandi\",\"password\":\"ariandi\"}para registro Retorna Codigo 201-Created\n" +
+                            "post /login -Recibe un usuario para logearse {\"userName\":\"ariandi\",\"password\":\"ariandi\"} Retorna Codigo 201-Created"
                 call.respondText(text, ContentType.Text.Plain)
             }
             authenticate {
@@ -108,19 +109,18 @@ fun main(args: Array<String>) {
                 post("/richmeat/form") {
                     val userName = call.login?.userName
                     val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
-                    formService.insertForm(newForm,userName!!)
+                    formService.insertForm(newForm, userName!!)
                     call.respond(HttpStatusCode.Created)
                 }
             }
             //post /sign_up-Recibe un usuario {"userName":"ariandi","password":"ariandi"}para registro Retorna Codigo 201-Created
             post("/richmeat/sign_up") {
                 val newUserLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
-
-                if(dataBaseService.createUser(newUserLogin)){
-                    call.respond(HttpStatusCode.Created)
-                }else{
+                if (dataBaseService.createUser(newUserLogin)) {
+                    val token = JwtConfig.generateToken(newUserLogin)
+                    call.respond(HttpStatusCode.Created, "Token:$token")
+                } else {
                     call.respond(HttpStatusCode.NotAcceptable)
-
                 }
             }
             //post /login-Recibe un usuario para logearse {"userName":"ariandi","password":"ariandi"} Retorna Codigo 201-Created
