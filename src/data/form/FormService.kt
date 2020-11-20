@@ -101,7 +101,7 @@ class FormService {
              transaction {
                  Forms.insert {
                      it[created_date] = createdDate
-                     it[reviewed_date] = formatter.parseDateTime("00-00-0000 00:00:00")
+                     it[reviewed_date] = createdDate
                      it[status] = form.status
                      it[created_by] = userName
                      it[reviewed_by] = form.reviewed_by
