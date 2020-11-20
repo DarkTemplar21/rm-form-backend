@@ -115,8 +115,13 @@ fun main(args: Array<String>) {
             //post /sign_up-Recibe un usuario {"userName":"ariandi","password":"ariandi"}para registro Retorna Codigo 201-Created
             post("/richmeat/sign_up") {
                 val newUserLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
-                dataBaseService.createUser(newUserLogin)
-                call.respond(HttpStatusCode.Created)
+
+                if(dataBaseService.createUser(newUserLogin)){
+                    call.respond(HttpStatusCode.Created)
+                }else{
+                    call.respond(HttpStatusCode.NotAcceptable)
+
+                }
             }
             //post /login-Recibe un usuario para logearse {"userName":"ariandi","password":"ariandi"} Retorna Codigo 201-Created
             post("/richmeat/login") {
