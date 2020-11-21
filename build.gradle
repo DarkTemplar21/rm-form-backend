@@ -111,6 +111,9 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:$logback_version"
 
     implementation "com.tfowl.ktor:ktor-jsoup:1.0.0"
+    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.0.6'
+    implementation group: 'com.itextpdf', name: 'html2pdf', version: '2.1.6'
+
 
 
 

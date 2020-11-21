@@ -1,17 +1,17 @@
 package com.richmeat.data.util
 
+import com.itextpdf.html2pdf.ConverterProperties
+import com.itextpdf.html2pdf.HtmlConverter
 import com.richmeat.data.form.Form
+import io.ktor.utils.io.charsets.Charset
 import org.apache.pdfbox.cos.COSDocument
 import org.apache.pdfbox.pdfparser.PDFParser
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.util.PDFTextStripper
 import org.joda.time.DateTime
 import org.jsoup.Jsoup
-import org.jsoup.nodes.TextNode
-import org.jsoup.select.Elements
-import java.io.BufferedInputStream
-import java.io.File
-import java.io.IOException
+import java.awt.print.PrinterJob
+import java.io.*
 import java.net.URL
 import javax.print.PrintService
 import javax.print.PrintServiceLookup
@@ -69,12 +69,6 @@ object PrintingUtil {
         doc.getElementById("{operario}").html("<strong>"+doc.getElementById("{operario}").text().replace("{operario}","FALTA")+"</strong>")
         doc.getElementById("{supervisor}").html("<strong>"+doc.getElementById("{supervisor}").text().replace("{supervisor}","FALTA")+"</strong>")
         doc.getElementById("{observaciones}").html("<strong>"+doc.getElementById("{observaciones}").text().replace("{observaciones}","FALTA")+"</strong>")
-
-
-
-
-
-
         doc.getElementById("{1es}").text(TempFormHelper.intToString(form.anden_1y2_on, true))
         doc.getElementById("{2es}").text(TempFormHelper.intToString(form.conservacion_mp_on, true))
         doc.getElementById("{3es}").text(TempFormHelper.intToString(form.conservacion_pt_on, true))
@@ -131,8 +125,9 @@ object PrintingUtil {
         doc.getElementById("{9ln}").text(TempFormHelper.intToString(form.atemperado_mp_reviewed, false))
 
 
-        val html = doc.toString();
-        println(html)
+        val html = doc.toString()
+        saveHtmlFile(html)
+        printPDF(html2Pdf(File("src/assets/tempHtml.html")))
 
     }
 
@@ -142,13 +137,13 @@ object PrintingUtil {
 
         fun printPDF(pdfDocument: File) {
             val document: PDDocument = PDDocument.load(pdfDocument)
-            document.toString()
-//        val myPrintService: PrintService? =
-//            findPrintService("\\\\RICHMEAT15-PC.RICHMEATCUBA.LOCAL\\Canon G6000 series")
-//        val job: PrinterJob = PrinterJob.getPrinterJob()
-//        job.setPageable((document))
-//        job.printService = myPrintService
-//        job.print()
+             document.toString()
+        val myPrintService: PrintService? =
+            findPrintService("\\\\RICHMEAT15-PC.RICHMEATCUBA.LOCAL\\Canon G6000 series")
+        val job: PrinterJob = PrinterJob.getPrinterJob()
+        job.setPageable((document))
+        job.printService = myPrintService
+        job.print()
         }
     }
 
@@ -200,6 +195,37 @@ object PrintingUtil {
         }
         return parsedText
     }
+
+ fun html2Pdf(html: File):File{
+
+     val pdfDest = File("output.pdf")
+     // pdfHTML specific code
+     // pdfHTML specific code
+     val converterProperties = ConverterProperties()
+     HtmlConverter.convertToPdf(
+         FileInputStream(html),
+         FileOutputStream(pdfDest), converterProperties
+     )
+     return pdfDest
+ }
+  fun saveHtmlFile(html: String) {
+    val path: String = "src/assets/"
+    var fileName: String = "tempHtml"
+
+    fileName = "$fileName.html"
+    val file = File(path, fileName)
+
+    try {
+        val out = FileOutputStream(file,false)
+        val data = html.toByteArray()
+        out.write(data)
+        out.close()
+    } catch (e: FileNotFoundException) {
+        e.printStackTrace()
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+}
 
 
 
