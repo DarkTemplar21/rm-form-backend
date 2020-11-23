@@ -1,9 +1,9 @@
 package com.richmeat.data.model.user
 
 
-import com.richmeat.data.model.user.Users.email
-import com.richmeat.data.model.user.Users.name
 import com.richmeat.data.model.user.Users.password
+import com.richmeat.data.model.user.Users.role
+import com.richmeat.data.model.user.Users.userName
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
@@ -19,10 +19,8 @@ class UserService {
         }
 
     suspend fun getAllUsers(): List<User> = dbQuery {
-        var users = mutableListOf<User>()
         Users.selectAll().map {
             toUser(it)
-
         }
     }
     object DatabaseFactory {
@@ -90,8 +88,8 @@ class UserService {
 
 private fun toUser(row: ResultRow): User =
     User(
-        name = row[name],
-        email = row[email],
+        userName = row[userName],
+        role = row[role],
         password = row[password]
     )
 

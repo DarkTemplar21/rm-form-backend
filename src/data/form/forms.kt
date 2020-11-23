@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.Table
 import org.joda.time.DateTime
 
 object Forms: Table() {
+    val id: Column<Int> = integer("id")
     val created_date: Column<DateTime> = datetime("created_date")
     val reviewed_date: Column<DateTime> = datetime("reviewed_date")
     val status: Column<String>  = text("status")

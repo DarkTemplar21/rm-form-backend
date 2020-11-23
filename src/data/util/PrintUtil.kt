@@ -158,13 +158,13 @@ object PrintingUtil {
 
     private fun findPrintService(printerName: String): PrintService? {
         val printServices: Array<PrintService> = PrintServiceLookup.lookupPrintServices(null, null)
-        println("asd:" + printServices[10].name)
-        println("asd:" + printServices[11].name)
-        println("asd:" + printServices[12].name)
-        println("asd:" + printServices[13].name)
-        println("asd:" + printServices[14].name)
-        println("asd:" + printServices[15].name)
-        println("asd:" + printServices[16].name)
+//        println("asd:" + printServices[10].name)
+//        println("asd:" + printServices[11].name)
+//        println("asd:" + printServices[12].name)
+//        println("asd:" + printServices[13].name)
+//        println("asd:" + printServices[14].name)
+//        println("asd:" + printServices[15].name)
+//        println("asd:" + printServices[16].name)
         for (printService in printServices) {
             if (printService.getName().trim().equals(printerName)) {
                 return printService

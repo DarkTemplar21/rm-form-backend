@@ -34,6 +34,7 @@ class DataBaseService {
                 Users.insert {
                     it[userName] = login.userName
                     it[password] = login.password
+                    it[role] = "user"
                 }
                 return@transaction true
             } else {

@@ -20,6 +20,7 @@ import com.richmeat.data.form.Forms.created_date
 import com.richmeat.data.form.Forms.empaque_in_range
 import com.richmeat.data.form.Forms.empaque_on
 import com.richmeat.data.form.Forms.empaque_reviewed
+import com.richmeat.data.form.Forms.id
 import com.richmeat.data.form.Forms.pasillo_in_range
 import com.richmeat.data.form.Forms.pasillo_on
 import com.richmeat.data.form.Forms.pasillo_reviewed
@@ -54,6 +55,7 @@ class FormService {
 
     private fun toForm(row: ResultRow) =
         FormDTO(
+            id =  row[id],
             created_date = row[created_date].toString("dd-MM-yyyy HH:mm:ss"),
             reviewed_date = row[reviewed_date].toString("dd-MM-yyyy HH:mm:ss"),
             status = row[status],
