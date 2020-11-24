@@ -3,7 +3,6 @@ package com.richmeat.data.form
 import org.joda.time.DateTime
 
 data class Form(
-    val id: Int,
     val created_date: DateTime,
     val reviewed_date: DateTime,
     val status: String,
