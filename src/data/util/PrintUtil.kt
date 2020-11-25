@@ -28,33 +28,7 @@ object PrintingUtil {
             "ok",
             "pepe",
             "juan",
-            0,
-            1,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            0,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            0,
-            0,
-            1
+            mutableListOf()
         )
         val inputStream = file.inputStream()
         val doc = Jsoup.parse(inputStream, "UTF-8", "http://com.richmeat/")
@@ -69,60 +43,7 @@ object PrintingUtil {
         doc.getElementById("{operario}").html("<strong>"+doc.getElementById("{operario}").text().replace("{operario}","FALTA")+"</strong>")
         doc.getElementById("{supervisor}").html("<strong>"+doc.getElementById("{supervisor}").text().replace("{supervisor}","FALTA")+"</strong>")
         doc.getElementById("{observaciones}").html("<strong>"+doc.getElementById("{observaciones}").text().replace("{observaciones}","FALTA")+"</strong>")
-        doc.getElementById("{1es}").text(TempFormHelper.intToString(form.anden_1y2_on, true))
-        doc.getElementById("{2es}").text(TempFormHelper.intToString(form.conservacion_mp_on, true))
-        doc.getElementById("{3es}").text(TempFormHelper.intToString(form.conservacion_pt_on, true))
-        doc.getElementById("{4es}").text(TempFormHelper.intToString(form.anden_3y4_on, true))
-        doc.getElementById("{5es}").text(TempFormHelper.intToString(form.pasillo_on, true))
-        doc.getElementById("{6es}").text(TempFormHelper.intToString(form.empaque_on, true))
-        doc.getElementById("{7es}").text(TempFormHelper.intToString(form.preenfriamiento_pt_on, true))
-        doc.getElementById("{8es}").text(TempFormHelper.intToString(form.proceso_on, true))
-        doc.getElementById("{9es}").text(TempFormHelper.intToString(form.atemperado_mp_on, true))
-        doc.getElementById("{1en}").text(TempFormHelper.intToString(form.anden_1y2_on, false))
-        doc.getElementById("{2en}").text(TempFormHelper.intToString(form.conservacion_mp_on, false))
-        doc.getElementById("{3en}").text(TempFormHelper.intToString(form.conservacion_pt_on, false))
-        doc.getElementById("{4en}").text(TempFormHelper.intToString(form.anden_3y4_on, false))
-        doc.getElementById("{5en}").text(TempFormHelper.intToString(form.pasillo_on, false))
-        doc.getElementById("{6en}").text(TempFormHelper.intToString(form.empaque_on, false))
-        doc.getElementById("{7en}").text(TempFormHelper.intToString(form.preenfriamiento_pt_on, false))
-        doc.getElementById("{8en}").text(TempFormHelper.intToString(form.proceso_on, false))
-        doc.getElementById("{9en}").text(TempFormHelper.intToString(form.atemperado_mp_on, false))
-        doc.getElementById("{1ts}").text(TempFormHelper.intToString(form.anden_1y2_in_range, true))
-        doc.getElementById("{2ts}").text(TempFormHelper.intToString(form.conservacion_mp_in_range, true))
-        doc.getElementById("{3ts}").text(TempFormHelper.intToString(form.conservacion_pt_in_range, true))
-        doc.getElementById("{4ts}").text(TempFormHelper.intToString(form.anden_3y4_in_range, true))
-        doc.getElementById("{5ts}").text(TempFormHelper.intToString(form.pasillo_in_range, true))
-        doc.getElementById("{6ts}").text(TempFormHelper.intToString(form.empaque_in_range, true))
-        doc.getElementById("{7ts}").text(TempFormHelper.intToString(form.preenfriamiento_pt_in_range, true))
-        doc.getElementById("{8ts}").text(TempFormHelper.intToString(form.proceso_in_range, true))
-        doc.getElementById("{9ts}").text(TempFormHelper.intToString(form.atemperado_mp_in_range, true))
-        doc.getElementById("{1tn}").text(TempFormHelper.intToString(form.anden_1y2_in_range, false))
-        doc.getElementById("{2tn}").text(TempFormHelper.intToString(form.conservacion_mp_in_range, false))
-        doc.getElementById("{3tn}").text(TempFormHelper.intToString(form.conservacion_pt_in_range, false))
-        doc.getElementById("{4tn}").text(TempFormHelper.intToString(form.anden_3y4_in_range, false))
-        doc.getElementById("{5tn}").text(TempFormHelper.intToString(form.pasillo_in_range, false))
-        doc.getElementById("{6tn}").text(TempFormHelper.intToString(form.empaque_in_range, false))
-        doc.getElementById("{7tn}").text(TempFormHelper.intToString(form.preenfriamiento_pt_in_range, false))
-        doc.getElementById("{8tn}").text(TempFormHelper.intToString(form.proceso_in_range, false))
-        doc.getElementById("{9tn}").text(TempFormHelper.intToString(form.atemperado_mp_in_range, false))
-        doc.getElementById("{1ls}").text(TempFormHelper.intToString(form.anden_1y2_reviewed, true))
-        doc.getElementById("{2ls}").text(TempFormHelper.intToString(form.conservacion_mp_reviewed, true))
-        doc.getElementById("{3ls}").text(TempFormHelper.intToString(form.conservacion_pt_reviewed, true))
-        doc.getElementById("{4ls}").text(TempFormHelper.intToString(form.anden_3y4_reviewed, true))
-        doc.getElementById("{5ls}").text(TempFormHelper.intToString(form.pasillo_reviewed, true))
-        doc.getElementById("{6ls}").text(TempFormHelper.intToString(form.empaque_reviewed, true))
-        doc.getElementById("{7ls}").text(TempFormHelper.intToString(form.preenfriamiento_pt_reviewed, true))
-        doc.getElementById("{8ls}").text(TempFormHelper.intToString(form.proceso_reviewed, true))
-        doc.getElementById("{9ls}").text(TempFormHelper.intToString(form.atemperado_mp_reviewed, true))
-        doc.getElementById("{1ln}").text(TempFormHelper.intToString(form.anden_1y2_reviewed, false))
-        doc.getElementById("{2ln}").text(TempFormHelper.intToString(form.conservacion_mp_reviewed, false))
-        doc.getElementById("{3ln}").text(TempFormHelper.intToString(form.conservacion_pt_reviewed, false))
-        doc.getElementById("{4ln}").text(TempFormHelper.intToString(form.anden_3y4_reviewed, false))
-        doc.getElementById("{5ln}").text(TempFormHelper.intToString(form.pasillo_reviewed, false))
-        doc.getElementById("{6ln}").text(TempFormHelper.intToString(form.empaque_reviewed, false))
-        doc.getElementById("{7ln}").text(TempFormHelper.intToString(form.preenfriamiento_pt_reviewed, false))
-        doc.getElementById("{8ln}").text(TempFormHelper.intToString(form.proceso_reviewed, false))
-        doc.getElementById("{9ln}").text(TempFormHelper.intToString(form.atemperado_mp_reviewed, false))
+
 
 
         val html = doc.toString()
