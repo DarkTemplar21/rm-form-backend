@@ -58,32 +58,33 @@ class FormService {
             isReviewed = row[is_reviewed]
         )
 
-    suspend fun getAllUserForms(userName: String): List<FormDTO> = dbQuery {
+    suspend fun getAllUserForms(userName: String): FormDTO = dbQuery {
         return@dbQuery transaction {
-            val temperatureForms = TemperatureForms.select(created_by eq userName).map {
+            val temperatureForm = TemperatureForms.select(created_by eq userName).map {
                 toForm(it)
+            }.first()
+
+            temperatureForm.coldRooms = ColdRooms.select { temperature_form_id eq temperatureForm.id }.map {
+                toColdRoom(it)
             }
-            temperatureForms.forEach { temperatureForm ->
-                temperatureForm.coldRooms = ColdRooms.select { temperature_form_id eq temperatureForm.id }.map {
-                    toColdRoom(it)
-                }
-            }
-            return@transaction temperatureForms
+
+            return@transaction temperatureForm
 
         }
     }
-    suspend fun getUserFormById(userName: String,formId: Int): List<FormDTO> = dbQuery {
+
+    suspend fun getUserFormById(userName: String, formId: Int): List<FormDTO> = dbQuery {
         return@dbQuery transaction {
-            val temperatureForms = TemperatureForms.select {created_by eq userName and (temperature_form_id eq formId) }
+            val temperatureForm = TemperatureForms.select { created_by eq userName and (temperature_form_id eq formId) }
                 .map {
-                toForm(it)
-            }
-            temperatureForms.forEach { temperatureForm ->
-                temperatureForm.coldRooms = ColdRooms.select { temperature_form_id eq temperatureForm.id }.map {
+                    toForm(it)
+                }
+            temperatureForm.forEach { mTemperatureForm ->
+                mTemperatureForm.coldRooms = ColdRooms.select { temperature_form_id eq mTemperatureForm.id }.map {
                     toColdRoom(it)
                 }
             }
-            return@transaction temperatureForms
+            return@transaction temperatureForm
 
         }
     }
@@ -100,7 +101,7 @@ class FormService {
                     it[created_by] = userName
                     it[reviewed_by] = form.reviewedBy
                 }[id]
-                form.coldRooms.forEach {coldRoom ->
+                form.coldRooms.forEach { coldRoom ->
                     ColdRooms.insert {
                         it[temperature_form_id] = insertedTemperatureFormId
                         it[name] = coldRoom.name
