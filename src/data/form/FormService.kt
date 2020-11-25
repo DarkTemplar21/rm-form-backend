@@ -58,9 +58,9 @@ class FormService {
             isReviewed = row[is_reviewed]
         )
 
-    suspend fun getUserFormById(userName: String): FormDTO = dbQuery {
+    suspend fun getUserFormById(userName: String,formId: Int): FormDTO = dbQuery {
         return@dbQuery transaction {
-            val temperatureForm = TemperatureForms.select(created_by eq userName).map {
+            val temperatureForm = TemperatureForms.select(created_by eq userName and (temperature_form_id eq formId)).map {
                 toForm(it)
             }.first()
 
@@ -73,9 +73,9 @@ class FormService {
         }
     }
 
-    suspend fun getAllUserForms(userName: String, formId: Int): List<FormDTO> = dbQuery {
+    suspend fun getAllUserForms(userName: String): List<FormDTO> = dbQuery {
         return@dbQuery transaction {
-            val temperatureForm = TemperatureForms.select { created_by eq userName and (temperature_form_id eq formId) }
+            val temperatureForm = TemperatureForms.select { created_by eq userName }
                 .map {
                     toForm(it)
                 }
