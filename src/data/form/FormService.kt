@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -60,6 +61,21 @@ class FormService {
     suspend fun getAllUserForms(userName: String): List<FormDTO> = dbQuery {
         return@dbQuery transaction {
             val temperatureForms = TemperatureForms.select(created_by eq userName).map {
+                toForm(it)
+            }
+            temperatureForms.forEach { temperatureForm ->
+                temperatureForm.coldRooms = ColdRooms.select { temperature_form_id eq temperatureForm.id }.map {
+                    toColdRoom(it)
+                }
+            }
+            return@transaction temperatureForms
+
+        }
+    }
+    suspend fun getUserFormById(userName: String,formId: Int): List<FormDTO> = dbQuery {
+        return@dbQuery transaction {
+            val temperatureForms = TemperatureForms.select {created_by eq userName and (temperature_form_id eq formId) }
+                .map {
                 toForm(it)
             }
             temperatureForms.forEach { temperatureForm ->
