@@ -60,16 +60,13 @@ class FormService {
 
     suspend fun getUserFormById(userName: String,formId: Int): FormDTO = dbQuery {
         return@dbQuery transaction {
-            val temperatureForm = TemperatureForms.select(created_by eq userName and (temperature_form_id eq formId)).map {
+            val temperatureForm = TemperatureForms.select(created_by eq userName ).map {
                 toForm(it)
             }.first()
-
             temperatureForm.coldRooms = ColdRooms.select { temperature_form_id eq temperatureForm.id }.map {
                 toColdRoom(it)
             }
-
             return@transaction temperatureForm
-
         }
     }
 
