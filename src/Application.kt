@@ -92,27 +92,28 @@ fun main(args: Array<String>) {
                 call.respondText(text, ContentType.Text.Plain)
             }
             authenticate {
-                //get /authenticate-Recibe el Bearer token como heather y devuelve el usuario y contraseña para pruebas
-                get("/richmeat/authenticate") {
-                    call.respond("User is: ${call.login?.userName} Passoword is: ${call.login?.password}")
-                }
-                //get /users-Devuelve los usuarios
-                get("/richmeat/users") {
-                    call.respond(gson.toJson(userService.getAllUsers()))
-                }
-                //get /forms-Devuelve los formularios de temperatura
-                get("/richmeat/forms") {
-                    val userName = call.login?.userName
-                    call.respond(gson.toJson(formService.getAllUserForms(userName!!)))
-                }
-                //post /form-Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created
-                post("/richmeat/form") {
-                    val userName = call.login?.userName
-                    val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
-                    formService.insertForm(newForm, userName!!)
-                    call.respond(HttpStatusCode.Created)
-                }
+            //get /authenticate-Recibe el Bearer token como heather y devuelve el usuario y contraseña para pruebas
+            get("/richmeat/authenticate") {
+                call.respond("User is: ${call.login?.userName} Passoword is: ${call.login?.password}")
             }
+            //get /users-Devuelve los usuarios
+            get("/richmeat/users") {
+                call.respond(gson.toJson(userService.getAllUsers()))
+            }
+            //get /forms-Devuelve los formularios de temperatura
+            get("/richmeat/forms") {
+                val userName = call.login?.userName
+                call.respond(gson.toJson(formService.getAllUserForms(userName!!)))
+            }
+            //post /form-Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created
+            post("/richmeat/form") {
+                val userName = call.login?.userName ?: "usuarioNoEncontrado"
+                val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
+                formService.insertForm(newForm, userName)
+                call.respond(HttpStatusCode.Created)
+            }
+        }
+
             //post /sign_up-Recibe un usuario {"userName":"ariandi","password":"ariandi"}para registro Retorna Codigo 201-Created
             post("/richmeat/sign_up") {
                 val newUserLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
