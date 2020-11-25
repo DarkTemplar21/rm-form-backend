@@ -1,6 +1,7 @@
 package com.richmeat.data.model.user
 
 
+import com.richmeat.data.DataBaseService
 import com.richmeat.data.model.user.Users.password
 import com.richmeat.data.model.user.Users.role
 import com.richmeat.data.model.user.Users.userName
@@ -9,6 +10,7 @@ import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 
@@ -18,15 +20,26 @@ class UserService {
             transaction { block() }
         }
 
+    suspend fun getUserRole(userName: String): String = dbQuery {
+        transaction {
+            val user = Users.select { Users.userName eq userName }.map {
+                toUser(it)
+            }
+            return@transaction user.first().role
+        }
+    }
+
     suspend fun getAllUsers(): List<User> = dbQuery {
         Users.selectAll().map {
             toUser(it)
         }
     }
+
     object DatabaseFactory {
         fun init() {
             Database.connect(hikari())
         }
+
 
         private fun hikari(): HikariDataSource {
             //ok for heroku
@@ -41,7 +54,7 @@ class UserService {
             config.validate()
             return HikariDataSource(config)
 
-             //local database
+            //local database
 //            val config = HikariConfig()
 //            config.driverClassName = "org.postgresql.Driver"
 //            config.jdbcUrl = "jdbc:postgresql://127.0.0.1:5432/RMForm"
@@ -53,7 +66,6 @@ class UserService {
 //            config.validate()
 //            return HikariDataSource(config)
         }
-
 
 
         fun insertUser(user: UserDTO) {
@@ -79,21 +91,18 @@ class UserService {
 //            }
 //
 //        }
+        }
+
+
     }
 
 
-
-}
-
-
-private fun toUser(row: ResultRow): User =
-    User(
-        userName = row[userName],
-        role = row[role],
-        password = row[password]
-    )
-
-
+    fun toUser(row: ResultRow): User =
+        User(
+            userName = row[userName],
+            role = row[role],
+            password = row[password]
+        )
 
 
 }

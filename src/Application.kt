@@ -7,6 +7,7 @@ import com.richmeat.data.form.FormDTO
 import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.UserService
+import com.richmeat.data.model.user.Users
 import data.model.JwtConfig
 import com.richmeat.data.util.login
 import io.ktor.application.call
@@ -28,6 +29,7 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import org.jetbrains.exposed.sql.select
 
 fun main(args: Array<String>) {
 
@@ -124,8 +126,10 @@ fun main(args: Array<String>) {
             post("/richmeat/sign_up") {
                 val newUserLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 if (dataBaseService.createUser(newUserLogin)) {
+
                     val token = JwtConfig.generateToken(newUserLogin)
-                    call.respond(HttpStatusCode.Created, "Token:$token")
+                    val role = userService.getUserRole(newUserLogin.userName)
+                    call.respond(HttpStatusCode.Created, "Token:$token,Role$role")
                 } else {
                     call.respond(HttpStatusCode.NotAcceptable)
                 }
@@ -136,7 +140,8 @@ fun main(args: Array<String>) {
                 var loginExists = dataBaseService.loginExists(userLogin)
                 if (loginExists) {
                     val token = JwtConfig.generateToken(userLogin)
-                    call.respond(HttpStatusCode.OK, "Token:$token")
+                    val role = userService.getUserRole(userLogin.userName)
+                    call.respond(HttpStatusCode.Created, "Token:$token,Role$role")
 
                 }
                 call.respond(HttpStatusCode.Unauthorized)
@@ -159,6 +164,8 @@ fun main(args: Array<String>) {
 
     server.start(wait = true)
 }
+
+
 
 
 

@@ -4,6 +4,7 @@ import com.richmeat.data.model.Login
 import com.richmeat.data.model.user.User
 import com.richmeat.data.model.user.Users
 import com.richmeat.data.model.user.Users.password
+import com.richmeat.data.model.user.Users.role
 import com.richmeat.data.model.user.Users.userName
 
 import kotlinx.coroutines.Dispatchers
@@ -44,14 +45,16 @@ class DataBaseService {
 
     }
 
+}
 
-    private fun userExists(login: Login): Boolean {
-        return Users.select(userName eq login.userName).count() > 0
 
-    }
-
+private fun userExists(login: Login): Boolean {
+    return Users.select(userName eq login.userName).count() > 0
 
 }
+
+
+
 
 
 
