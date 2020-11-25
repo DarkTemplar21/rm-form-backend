@@ -57,7 +57,7 @@ class FormService {
             isReviewed = row[is_reviewed]
         )
 
-    suspend fun getAllUserForms(userName: String): Unit = dbQuery {
+    suspend fun getAllUserForms(userName: String): List<FormDTO> = dbQuery {
         return@dbQuery transaction {
             val temperatureForms = TemperatureForms.select(created_by eq userName).map {
                 toForm(it)
@@ -67,6 +67,7 @@ class FormService {
                     toColdRoom(it)
                 }
             }
+            return@transaction temperatureForms
 
         }
     }
