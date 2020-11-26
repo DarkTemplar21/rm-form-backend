@@ -3,6 +3,7 @@ package com.richmeat.data.util
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
 import com.richmeat.data.form.Form
+import com.richmeat.data.form.FormDTO
 import io.ktor.utils.io.charsets.Charset
 import org.apache.pdfbox.cos.COSDocument
 import org.apache.pdfbox.pdfparser.PDFParser
@@ -20,7 +21,7 @@ import javax.print.PrintServiceLookup
 object PrintingUtil {
     @Throws(Exception::class)
     @JvmStatic
-   public fun main(form: FormDTO,numberOfCopies: Int) {
+   public fun main(form: FormDTO, numberOfCopies: Int) {
         val file = File("src/assets/temp_form.html")
         val form = Form(
             "",
