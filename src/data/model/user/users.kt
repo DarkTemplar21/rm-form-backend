@@ -9,7 +9,7 @@ import java.util.*
 
 
 object Users: Table() {
-    val role: Column<String> = text("email")
+    val role: Column<String> = text("role")
     val userName: Column<String> = text("user_name")
     val password: Column<String> = text("password")
 }
