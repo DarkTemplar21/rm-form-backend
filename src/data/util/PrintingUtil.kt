@@ -23,8 +23,8 @@ object PrintingUtil {
     @JvmStatic
    public fun main(form: FormDTO, numberOfCopies: Int) {
         val file = File("src/assets/temp_form.html")
-        val form = Form(
-            "",
+        val form = FormDTO(
+            1,"",
             "",
             "ok",
             "pepe",
@@ -35,26 +35,26 @@ object PrintingUtil {
         val doc = Jsoup.parse(inputStream, "UTF-8", "http://com.richmeat/")
 
 
-        doc.getElementById("{elaborado}").html(
-            "<strong>" + doc.getElementById("{elaborado}").text().replace("{elaborado}", form.created_by) + "</strong>"
-        )
-        doc.getElementById("{aprobado}").html("<strong>" + form.reviewed_by + "</strong>")
-        doc.getElementById("{fecha_elaborado}").html(
-            "<strong>" + doc.getElementById("{fecha_elaborado}").text()
-                .replace("{fecha_elaborado}", DateHelper.getStringShortDate(form.created_date)) + "</strong>"
-        )
-        doc.getElementById("{fecha_aprobado}").html(
-            "<strong>" + doc.getElementById("{fecha_aprobado}").text()
-                .replace("{fecha_aprobado}", DateHelper.getStringShortDate(form.created_date)) + "</strong>"
-        )
-        doc.getElementById("{hora}").html(
-            "<strong>" + doc.getElementById("{hora}").text()
-                .replace("{hora}", DateHelper.getStringHour(form.created_date)) + "</strong>"
-        )
-        doc.getElementById("{dia}").html(
-            "<strong>" + doc.getElementById("{dia}").text()
-                .replace("{dia}", DateHelper.getStringDay(form.created_date)) + "</strong>"
-        )
+//        doc.getElementById("{elaborado}").html(
+//            "<strong>" + doc.getElementById("{elaborado}").text().replace("{elaborado}", form.createdBy) + "</strong>"
+//        )
+//        doc.getElementById("{aprobado}").html("<strong>" + form.reviewedBy + "</strong>")
+//        doc.getElementById("{fecha_elaborado}").html(
+//            "<strong>" + doc.getElementById("{fecha_elaborado}").text()
+//                .replace("{fecha_elaborado}", DateHelper.get(form.createdDate)) + "</strong>"
+//        )
+//        doc.getElementById("{fecha_aprobado}").html(
+//            "<strong>" + doc.getElementById("{fecha_aprobado}").text()
+//                .replace("{fecha_aprobado}", DateHelper.getStringShortDate(form.createdDate)) + "</strong>"
+//        )
+//        doc.getElementById("{hora}").html(
+//            "<strong>" + doc.getElementById("{hora}").text()
+//                .replace("{hora}", DateHelper.getStringHour(form.createdDate)) + "</strong>"
+//        )
+//        doc.getElementById("{dia}").html(
+//            "<strong>" + doc.getElementById("{dia}").text()
+//                .replace("{dia}", DateHelper.getStringDay(form.createdDate)) + "</strong>"
+//        )
         doc.getElementById("{operario}")
             .html("<strong>" + doc.getElementById("{operario}").text().replace("{operario}", "FALTA") + "</strong>")
         doc.getElementById("{supervisor}")
