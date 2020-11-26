@@ -6,8 +6,9 @@ import com.richmeat.data.DataBaseService
 import com.richmeat.data.form.FormDTO
 import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
+import com.richmeat.data.model.PrintRequest
 import com.richmeat.data.model.user.UserService
-import com.richmeat.data.model.user.Users
+import com.richmeat.data.util.PrintingUtil
 import data.model.JwtConfig
 import com.richmeat.data.util.login
 import io.ktor.application.call
@@ -29,7 +30,6 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import org.jetbrains.exposed.sql.select
 
 fun main(args: Array<String>) {
 
@@ -107,16 +107,32 @@ fun main(args: Array<String>) {
                     val userName = call.login?.userName
                     call.respond(gson.toJson(formService.getAllUserForms(userName!!)))
                 }
+                //get /forms-Devuelve un formulario de temperatura enviandole un id
                 get("/richmeat/form_by_id") {
                     val userName = call.login?.userName
                     val formId = call.receive<String>().toInt()
                     call.respond(gson.toJson(formService.getUserFormById(userName!!,formId)))
                 }
+                //get /forms-Devuelve un listado de impresoras
+                get("/richmeat/printers_list") {
+                    val userName = call.login?.userName
+                    call.respond(gson.toJson(PrintingUtil.getPrinterList()))
+                }
+
+
                 //post /form-Recibe un formulario y lo introduce en base de datos Retorna Codigo 201-Created
                 post("/richmeat/form") {
                     val userName = call.login?.userName ?: "usuarioNoEncontrado"
                     val newForm = Gson().fromJson(call.receive<String>(), FormDTO::class.java)
                     formService.insertForm(newForm, userName)
+                    call.respond(HttpStatusCode.Created)
+                }
+                //get /forms-Peticion de impresion Recive nombre de impresora e id del form
+                post("/richmeat/print") {
+                    val userName = call.login?.userName ?: "usuarioNoEncontrado"
+                    val printRequest = Gson().fromJson(call.receive<String>(), PrintRequest::class.java)
+                    val temperatureForm = formService.getUserFormById(userName, printRequest.formId)
+                    PrintingUtil.main(temperatureForm, printRequest.numberOfCopies)
                     call.respond(HttpStatusCode.Created)
                 }
 
