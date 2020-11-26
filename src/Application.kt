@@ -7,6 +7,7 @@ import com.richmeat.data.form.FormDTO
 import com.richmeat.data.form.FormService
 import com.richmeat.data.model.Login
 import com.richmeat.data.model.PrintRequest
+import com.richmeat.data.model.user.LoginToken
 import com.richmeat.data.model.user.UserService
 import com.richmeat.data.util.PrintingUtil
 import data.model.JwtConfig
@@ -143,9 +144,9 @@ fun main(args: Array<String>) {
                 val newUserLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 if (dataBaseService.createUser(newUserLogin)) {
 
-                    val token = JwtConfig.generateToken(newUserLogin)
-                    val role = userService.getUserRole(newUserLogin.userName)
-                    call.respond(HttpStatusCode.Created, "Token:$token,Role$role")
+                    val loginToken = LoginToken(JwtConfig.generateToken(newUserLogin),
+                        userService.getUserRole(newUserLogin.userName))
+                    call.respond(HttpStatusCode.Created,gson.toJson(loginToken) )
                 } else {
                     call.respond(HttpStatusCode.NotAcceptable)
                 }
@@ -155,9 +156,10 @@ fun main(args: Array<String>) {
                 val userLogin = Gson().fromJson(call.receive<String>(), Login::class.java)
                 var loginExists = dataBaseService.loginExists(userLogin)
                 if (loginExists) {
-                    val token = JwtConfig.generateToken(userLogin)
-                    val role = userService.getUserRole(userLogin.userName)
-                    call.respond(HttpStatusCode.Created, "Token:$token,Role$role")
+                    val loginToken = LoginToken(JwtConfig.generateToken(userLogin),
+                        userService.getUserRole(userLogin.userName))
+
+                    call.respond(HttpStatusCode.Created,gson.toJson(loginToken) )
 
                 }
                 call.respond(HttpStatusCode.Unauthorized)
