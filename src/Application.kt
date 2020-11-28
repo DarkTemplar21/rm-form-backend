@@ -111,7 +111,7 @@ fun main(args: Array<String>) {
                 //get /forms-Devuelve un formulario de temperatura enviandole un id
                 post("/richmeat/form_by_id") {
                     val userName = call.login?.userName
-                    val formId = call.receive<String>().toInt()
+                    val formId = Gson().fromJson(call.receive<String>(), Int::class.java)
                     call.respond(gson.toJson(formService.getUserFormById(userName!!,formId)))
                 }
                 //get /forms-Devuelve un listado de impresoras
