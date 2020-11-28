@@ -109,7 +109,7 @@ fun main(args: Array<String>) {
                     call.respond(gson.toJson(formService.getAllUserForms(userName!!)))
                 }
                 //get /forms-Devuelve un formulario de temperatura enviandole un id
-                get("/richmeat/form_by_id") {
+                post("/richmeat/form_by_id") {
                     val userName = call.login?.userName
                     val formId = call.receive<String>().toInt()
                     call.respond(gson.toJson(formService.getUserFormById(userName!!,formId)))
